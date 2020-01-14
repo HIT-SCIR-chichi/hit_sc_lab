@@ -1,0 +1,3 @@
+Stellar ::= <Sun,6.96392e5,1.9885e30>
+Planet ::= <Earth,Solid,Blue,63781.137,1.49e8,29.783,CW,0>
+

@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SocialNetworkSystemGUI.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2019年5月19日 下午11:06:41)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1172510217</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">applications</a> &gt; <span class="el_source">SocialNetworkSystemGUI.java</span></div><h1>SocialNetworkSystemGUI.java</h1><pre class="source lang-java linenums">package applications;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.geom.Ellipse2D;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import circularOrbit.SocialNetworkCircle;
+import myException.FileChooseException;
+import physicalObject.Friend;
+import track.Track;
+
+<span class="nc" id="L35">public class SocialNetworkSystemGUI {</span>
+
+<span class="nc" id="L37">    private static final Logger logger = Logger.getLogger(App.class.getSimpleName());</span>
+
+<span class="nc" id="L39">    private JFrame frame = new JFrame();</span>
+<span class="nc" id="L40">    private JPanel panel1 = new JPanel();</span>
+<span class="nc" id="L41">    private JPanel panel2 = new JPanel();</span>
+
+<span class="nc" id="L43">    private JComboBox&lt;String&gt; comboBox1 = new JComboBox&lt;String&gt;();</span>
+<span class="nc" id="L44">    private JButton button2 = new JButton();</span>
+<span class="nc" id="L45">    private JTextField textField2 = new JTextField();</span>
+<span class="nc" id="L46">    private JComboBox&lt;String&gt; comboBox3 = new JComboBox&lt;&gt;();</span>
+<span class="nc" id="L47">    private JTextField textField4 = new JTextField();</span>
+<span class="nc" id="L48">    private JComboBox&lt;String&gt; comboBox5 = new JComboBox&lt;&gt;();</span>
+<span class="nc" id="L49">    private JTextField textField5 = new JTextField();</span>
+<span class="nc" id="L50">    private JComboBox&lt;String&gt; comboBox6 = new JComboBox&lt;&gt;();</span>
+<span class="nc" id="L51">    private JTextField textField6 = new JTextField();</span>
+<span class="nc" id="L52">    private JButton button7 = new JButton();</span>
+<span class="nc" id="L53">    private JTextField textField7 = new JTextField();</span>
+<span class="nc" id="L54">    private JButton button8 = new JButton();</span>
+<span class="nc" id="L55">    private JTextField textField8 = new JTextField();</span>
+<span class="nc" id="L56">    private JButton button9 = new JButton();</span>
+
+<span class="nc" id="L58">    private SocialNetworkCircle socialNetworkCircle = new SocialNetworkCircle();</span>
+<span class="nc" id="L59">    File socialNetworkFile = new File(&quot;&quot;);</span>
+
+    private void changeSocialNetwork(int flag) throws IOException, FileChooseException {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (flag == 1) {</span>
+<span class="nc" id="L63">            socialNetworkFile = new File(&quot;src/Spring2019_HITCS_SC_Lab3-master/SocialNetworkCircle.txt&quot;);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        } else if (flag == 2) {</span>
+<span class="nc" id="L65">            socialNetworkFile = new File(&quot;src/Spring2019_HITCS_SC_Lab3-master/SocialNetworkCircle_Medium.txt&quot;);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        } else if (flag == 3) {</span>
+<span class="nc" id="L67">            socialNetworkFile = new File(&quot;src/Spring2019_HITCS_SC_Lab3-master/SocialNetworkCircle_Larger.txt&quot;);</span>
+<span class="nc" id="L68">        } else {</span>
+<span class="nc" id="L69">            System.out.println(&quot;文件选取参数有误！&quot;);</span>
+<span class="nc" id="L70">            System.exit(0);</span>
+        }
+<span class="nc" id="L72">        socialNetworkCircle = new SocialNetworkCircle();</span>
+<span class="nc" id="L73">        socialNetworkCircle.readFileAndCreateSystem(socialNetworkFile);</span>
+<span class="nc" id="L74">    }</span>
+
+    private void changeSocialNetwork(String fileString) {
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if(fileString != null) {</span>
+<span class="nc" id="L78">            socialNetworkFile = new File(fileString);</span>
+<span class="nc" id="L79">            socialNetworkCircle = new SocialNetworkCircle();</span>
+<span class="nc" id="L80">        }else {</span>
+<span class="nc" id="L81">            return;</span>
+        }
+        try {
+<span class="nc" id="L84">            socialNetworkCircle.readFileAndCreateSystem(socialNetworkFile);</span>
+<span class="nc" id="L85">        } catch (FileChooseException e) {</span>
+<span class="nc" id="L86">            logger.log(Level.SEVERE, e.toString());</span>
+<span class="nc" id="L87">            String fileString1 = JOptionPane.showInputDialog(&quot;警告：选取的文件不合乎规范，请重新输入要选择的文件&quot;);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">            if (fileString != null) {</span>
+<span class="nc" id="L89">                logger.log(Level.INFO, &quot;重新选择读取输入的文件：&quot; + fileString1);</span>
+<span class="nc" id="L90">                changeSocialNetwork(fileString1);</span>
+            }
+<span class="nc" id="L92">        } catch (IOException e) {</span>
+<span class="nc" id="L93">            logger.log(Level.SEVERE, &quot;无法处理的IO异常&quot;);</span>
+        }
+<span class="nc" id="L95">    }</span>
+
+    private void initFrame() {
+<span class="nc" id="L98">        frame.setTitle(&quot;SocialNetwork System GUI @Author ZJR&quot;);</span>
+<span class="nc" id="L99">        frame.setLayout(new GridLayout());</span>
+<span class="nc" id="L100">        frame.setVisible(true);// 设为可见</span>
+<span class="nc" id="L101">        frame.setExtendedState(Frame.MAXIMIZED_BOTH);// 设置窗口全屏</span>
+<span class="nc" id="L102">        frame.setDefaultCloseOperation(3);</span>
+
+<span class="nc" id="L104">        initPanel2();</span>
+<span class="nc" id="L105">        initPanel1();</span>
+
+<span class="nc" id="L107">        frame.add(panel1);</span>
+<span class="nc" id="L108">        frame.add(panel2);</span>
+<span class="nc" id="L109">    }</span>
+
+    private void initPanel1() {
+<span class="nc" id="L112">        panel1 = new JPanel() {</span>
+
+            @Override public void paint(Graphics g) {
+<span class="nc" id="L115">                panel1.updateUI();</span>
+<span class="nc" id="L116">                super.paint(g);</span>
+<span class="nc" id="L117">                ImageIcon imageIcon = new ImageIcon(&quot;src/img/Social Network.jpg&quot;);</span>
+<span class="nc" id="L118">                imageIcon.setImage(</span>
+<span class="nc" id="L119">                        imageIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_AREA_AVERAGING));</span>
+<span class="nc" id="L120">                g.drawImage(imageIcon.getImage(), 0, 0, this);</span>
+<span class="nc" id="L121">                Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();</span>
+<span class="nc" id="L122">                int x = (int) dimension.getWidth() / 4;</span>
+<span class="nc" id="L123">                int y = (int) (dimension.getHeight() - frame.getInsets().top) / 2;</span>
+<span class="nc" id="L124">                int count = socialNetworkCircle.getTracksNumber();</span>
+<span class="nc" id="L125">                g.setColor(Color.green);</span>
+<span class="nc" id="L126">                double r = (double) (x - 10) / count;</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">                if (socialNetworkCircle.getCentralPoint() != null) {</span>
+<span class="nc" id="L128">                    g.fillOval(x - 5, y - 5, 10, 10);</span>
+                }
+<span class="nc" id="L130">                Graphics2D g2d = (Graphics2D) g;</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">                for (int i = count - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L132">                    double d = r * (i + 1);</span>
+<span class="nc" id="L133">                    g2d.setColor(Color.orange);</span>
+<span class="nc" id="L134">                    g2d.draw(new Ellipse2D.Double(x - d - 5, y - d - 5, 2 * d + 10, 2 * d + 10));</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">                    for (int j = 0; j &lt; socialNetworkCircle.getTrack(i + 1).getNumberOfObjects(); j++) {</span>
+<span class="nc" id="L136">                        g2d.setColor(Color.green);</span>
+<span class="nc" id="L137">                        g2d.draw(new Ellipse2D.Double(x + Math.cos(j * 90) * (d + 5) - 5,</span>
+<span class="nc" id="L138">                                y + Math.sin(j * 90) * (d + 5) - 5, 10, 10));</span>
+                    }
+                }
+<span class="nc" id="L141">                g2d.setColor(Color.red);</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">                for (int i = 0; i &lt; socialNetworkCircle.getTracksNumber(); i++) {</span>
+<span class="nc" id="L143">                    Track&lt;Friend&gt; track = socialNetworkCircle.getTrack(i + 1);</span>
+<span class="nc" id="L144">                    double d = r * (i + 1);</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">                    if (i == 0) {</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                        for (int j = 0; j &lt; track.getNumberOfObjects(); j++) {</span>
+<span class="nc" id="L147">                            g2d.drawLine(x, y, x + (int) (Math.cos(j * 90) * (r + 5)),</span>
+<span class="nc" id="L148">                                    y + (int) (Math.sin(j * 90) * (r + 5)));</span>
+                        }
+                    }
+<span class="nc bnc" id="L151" title="All 2 branches missed.">                    for (int j = 0; j &lt; track.getNumberOfObjects(); j++) {</span>
+<span class="nc" id="L152">                        Friend friend1 = track.getTrackObjects().get(j);</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">                        for (int k = 0; k &lt; friend1.getAllFriends().size(); k++) {</span>
+<span class="nc" id="L154">                            Friend friend2 = friend1.getAllFriends().get(k);</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">                            if (!friend2.equals(socialNetworkCircle.getCentralPoint())) {</span>
+<span class="nc" id="L156">                                int fr2Radius = (int) friend2.getTrackRadius();</span>
+<span class="nc" id="L157">                                int numOfFr2 = socialNetworkCircle.getTrackByRadius(fr2Radius)</span>
+<span class="nc" id="L158">                                        .getPhysicalObjectIndex(friend2);</span>
+<span class="nc" id="L159">                                g2d.drawLine(x + (int) (Math.cos(numOfFr2 * 90) * (fr2Radius * r + 5)),</span>
+<span class="nc" id="L160">                                        y + (int) (Math.sin(numOfFr2 * 90) * (fr2Radius * r + 5)),</span>
+<span class="nc" id="L161">                                        x + (int) (Math.cos(j * 90) * (d + 5)), y + (int) (Math.sin(j * 90) * (d + 5)));</span>
+                            }
+                        }
+                    }
+                }
+
+<span class="nc" id="L167">            }</span>
+        };
+<span class="nc" id="L169">    }</span>
+
+    private void initPanel2() {
+<span class="nc" id="L172">        GridLayout gridLayout = new GridLayout(15, 1);</span>
+<span class="nc" id="L173">        panel2.setLayout(gridLayout);</span>
+<span class="nc" id="L174">        JLabel label = new JLabel(&quot;功能展示&quot;);</span>
+<span class="nc" id="L175">        panel2.add(label);</span>
+
+        // 功能一：文件生成
+<span class="nc" id="L178">        comboBox1.addItem(&quot;文件生成&quot;);</span>
+<span class="nc" id="L179">        panel2.add(comboBox1);</span>
+<span class="nc" id="L180">        initFunc1();</span>
+
+        // 增加朋友，必须输入所有的参数
+<span class="nc" id="L183">        panel2.add(button2);</span>
+<span class="nc" id="L184">        panel2.add(textField2);</span>
+<span class="nc" id="L185">        initFunc2();</span>
+
+        // 删除朋友，要删除所有的关系
+<span class="nc" id="L188">        panel2.add(comboBox3);</span>
+<span class="nc" id="L189">        initFunc3();</span>
+<span class="nc" id="L190">        comboBox3.addItemListener(new ItemListener() {</span>
+
+            public void itemStateChanged(ItemEvent e) {
+<span class="nc bnc" id="L193" title="All 2 branches missed.">                if (e.getStateChange() == ItemEvent.SELECTED) {</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">                    if (comboBox3.getSelectedIndex() != 0) {</span>
+<span class="nc" id="L195">                        logger.log(Level.INFO, &quot;删除朋友：&quot; + comboBox3.getSelectedItem().toString());</span>
+<span class="nc" id="L196">                        String[] strings = comboBox3.getSelectedItem().toString().split(&quot;:&quot;);</span>
+<span class="nc" id="L197">                        Friend friend = socialNetworkCircle.getFriendByName(strings[1]);</span>
+<span class="nc" id="L198">                        socialNetworkCircle.removeFriend(friend);</span>
+<span class="nc" id="L199">                        initFunc3();</span>
+<span class="nc" id="L200">                        textField4.setText(&quot;熵值：&quot; + socialNetworkCircle.getSystemEntropy());</span>
+<span class="nc" id="L201">                        initFunc5();</span>
+<span class="nc" id="L202">                        comboBox5.repaint();</span>
+<span class="nc" id="L203">                        textField5.setText(&quot;查询朋友在第几层轨道上&quot;);</span>
+<span class="nc" id="L204">                        initFunc6();</span>
+<span class="nc" id="L205">                        comboBox6.repaint();</span>
+<span class="nc" id="L206">                        textField7.setText(&quot;请输入要增加关系的两人姓名及亲密度：friend1 friend2 intimacy&quot;);</span>
+<span class="nc" id="L207">                        textField8.setText(&quot;请输入要删除关系的两人姓名：friend1 friend2&quot;);</span>
+                    }
+                }
+<span class="nc" id="L210">            }</span>
+        });
+
+<span class="nc" id="L213">        panel2.add(textField4);</span>
+<span class="nc" id="L214">        textField4.setEditable(false);</span>
+<span class="nc" id="L215">        textField4.setText(&quot;熵值：0&quot;);</span>
+
+<span class="nc" id="L217">        panel2.add(comboBox5);</span>
+<span class="nc" id="L218">        panel2.add(textField5);</span>
+<span class="nc" id="L219">        textField5.setEditable(false);</span>
+<span class="nc" id="L220">        textField5.setText(&quot;查询朋友在第几层轨道上&quot;);</span>
+<span class="nc" id="L221">        initFunc5();</span>
+<span class="nc" id="L222">        comboBox5.addItemListener(new ItemListener() {</span>
+
+            public void itemStateChanged(ItemEvent e) {
+<span class="nc bnc" id="L225" title="All 2 branches missed.">                if (e.getStateChange() == ItemEvent.SELECTED) {</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">                    if (comboBox5.getSelectedIndex() != 0) {</span>
+<span class="nc" id="L227">                        logger.log(Level.INFO, &quot;查询朋友在第几层轨道上：&quot; + comboBox5.getSelectedItem().toString());</span>
+<span class="nc" id="L228">                        String[] strings = comboBox5.getSelectedItem().toString().split(&quot;:&quot;);</span>
+<span class="nc" id="L229">                        Friend friend = socialNetworkCircle.getFriendByName(strings[1]);</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">                        if ((int) friend.getTrackRadius() == -1) {</span>
+<span class="nc" id="L231">                            logger.log(Level.WARNING, friend + &quot;不可被认识！&quot;);</span>
+<span class="nc" id="L232">                            textField5.setText(friend + &quot;不可被认识&quot;);</span>
+<span class="nc" id="L233">                        } else {</span>
+<span class="nc" id="L234">                            logger.log(Level.INFO, friend + &quot;在第&quot; + (int) friend.getTrackRadius() + &quot;层轨道上&quot;);</span>
+<span class="nc" id="L235">                            textField5.setText(friend + &quot;在第&quot; + (int) friend.getTrackRadius() + &quot;层轨道上&quot;);</span>
+                        }
+<span class="nc" id="L237">                        textField7.setText(&quot;请输入要增加关系的两人姓名及亲密度：friend1 friend2 intimacy&quot;);</span>
+<span class="nc" id="L238">                        textField8.setText(&quot;请输入要删除关系的两人姓名：friend1 friend2&quot;);</span>
+                    }
+                }
+<span class="nc" id="L241">            }</span>
+        });
+
+<span class="nc" id="L244">        panel2.add(comboBox6);</span>
+<span class="nc" id="L245">        panel2.add(textField6);</span>
+<span class="nc" id="L246">        textField6.setEditable(false);</span>
+<span class="nc" id="L247">        textField6.setText(&quot;查询中心用户某直接好友的扩散程度&quot;);</span>
+<span class="nc" id="L248">        initFunc6();</span>
+<span class="nc" id="L249">        comboBox6.addItemListener(new ItemListener() {</span>
+
+            public void itemStateChanged(ItemEvent e) {
+<span class="nc bnc" id="L252" title="All 2 branches missed.">                if (e.getStateChange() == ItemEvent.SELECTED) {</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">                    if (comboBox6.getSelectedIndex() != 0) {</span>
+<span class="nc" id="L254">                        logger.log(Level.INFO, &quot;查询中心用户的好友信息扩散程度：&quot; + comboBox6.getSelectedItem().toString());</span>
+<span class="nc" id="L255">                        String[] strings = comboBox6.getSelectedItem().toString().split(&quot;:&quot;);</span>
+<span class="nc" id="L256">                        Friend friend = socialNetworkCircle.getFriendByName(strings[1]);</span>
+<span class="nc" id="L257">                        logger.log(Level.INFO,</span>
+<span class="nc" id="L258">                                friend + &quot;的信息扩散程度为：&quot; + socialNetworkCircle.Informationdiffusivity(friend));</span>
+<span class="nc" id="L259">                        textField6.setText(friend + &quot;的信息扩散程度为：&quot; + socialNetworkCircle.Informationdiffusivity(friend));</span>
+<span class="nc" id="L260">                        textField7.setText(&quot;请输入要增加关系的两人姓名及亲密度：friend1 friend2 intimacy&quot;);</span>
+<span class="nc" id="L261">                        textField8.setText(&quot;请输入要删除关系的两人姓名：friend1 friend2&quot;);</span>
+                    }
+                }
+<span class="nc" id="L264">            }</span>
+        });
+
+<span class="nc" id="L267">        panel2.add(button7);</span>
+<span class="nc" id="L268">        panel2.add(textField7);</span>
+<span class="nc" id="L269">        initFunc7();</span>
+
+<span class="nc" id="L271">        panel2.add(button8);</span>
+<span class="nc" id="L272">        panel2.add(textField8);</span>
+<span class="nc" id="L273">        initFunc8();</span>
+
+<span class="nc" id="L275">        panel2.add(button9);</span>
+<span class="nc" id="L276">        initFunc9();</span>
+<span class="nc" id="L277">    }</span>
+
+    private void initFunc1() {
+<span class="nc" id="L280">        logger.entering(getClass().getName(), &quot;initFun1&quot;);</span>
+<span class="nc" id="L281">        comboBox1.addItem(&quot;小文件&quot;);</span>
+<span class="nc" id="L282">        comboBox1.addItem(&quot;中文件&quot;);</span>
+<span class="nc" id="L283">        comboBox1.addItem(&quot;大文件&quot;);</span>
+<span class="nc" id="L284">        comboBox1.addItemListener(new ItemListener() {</span>
+
+            public void itemStateChanged(ItemEvent e) {
+                try {
+<span class="nc bnc" id="L288" title="All 2 branches missed.">                    if (e.getStateChange() == ItemEvent.SELECTED) {</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">                        if (e.getItem().equals(&quot;小文件&quot;)) {</span>
+<span class="nc" id="L290">                            logger.log(Level.INFO, &quot;读取小文件&quot;);</span>
+<span class="nc" id="L291">                            changeSocialNetwork(1);</span>
+<span class="nc bnc" id="L292" title="All 2 branches missed.">                        } else if (e.getItem().equals(&quot;中文件&quot;)) {</span>
+<span class="nc" id="L293">                            logger.log(Level.INFO, &quot;读取中文件&quot;);</span>
+<span class="nc" id="L294">                            changeSocialNetwork(2);</span>
+<span class="nc bnc" id="L295" title="All 2 branches missed.">                        } else if (e.getItem().equals(&quot;大文件&quot;)) {</span>
+<span class="nc" id="L296">                            logger.log(Level.INFO, &quot;读取大文件&quot;);</span>
+<span class="nc" id="L297">                            changeSocialNetwork(3);</span>
+                        }
+<span class="nc" id="L299">                        update();</span>
+                    }
+<span class="nc" id="L301">                } catch (FileChooseException e1) {</span>
+<span class="nc" id="L302">                    logger.log(Level.SEVERE, e1.getMessage());</span>
+<span class="nc" id="L303">                    String fileString = JOptionPane.showInputDialog(&quot;警告：选取的文件不合乎规范，请重新输入要选择的文件&quot;);</span>
+<span class="nc bnc" id="L304" title="All 2 branches missed.">                    if (fileString != null) {</span>
+<span class="nc" id="L305">                        logger.log(Level.INFO, &quot;重新选择读取输入的文件：&quot; + fileString);</span>
+<span class="nc" id="L306">                        changeSocialNetwork(fileString);</span>
+                    }
+<span class="nc" id="L308">                    update();</span>
+<span class="nc" id="L309">                } catch (IOException e1) {</span>
+<span class="nc" id="L310">                    logger.log(Level.SEVERE, &quot;无法处理的IO异常&quot;);</span>
+                }
+
+<span class="nc" id="L313">            }</span>
+
+            private void update() {
+<span class="nc" id="L316">                initFunc3();</span>
+<span class="nc" id="L317">                textField2.setText(&quot;请输入一个朋友的信息：姓名 年龄 性别（M|F）&quot;);</span>
+<span class="nc" id="L318">                comboBox3.repaint();</span>
+<span class="nc" id="L319">                textField4.setText(&quot;熵值：&quot; + socialNetworkCircle.getSystemEntropy());</span>
+<span class="nc" id="L320">                initFunc5();</span>
+<span class="nc" id="L321">                comboBox5.repaint();</span>
+<span class="nc" id="L322">                textField5.setText(&quot;查询朋友在第几层轨道上&quot;);</span>
+<span class="nc" id="L323">                initFunc6();</span>
+<span class="nc" id="L324">                comboBox6.repaint();</span>
+<span class="nc" id="L325">                textField6.setText(&quot;查询中心用户某直接好友的扩散程度&quot;);</span>
+<span class="nc" id="L326">                textField7.setText(&quot;请输入要增加关系的两人姓名及亲密度：friend1 friend2 intimacy&quot;);</span>
+<span class="nc" id="L327">                textField8.setText(&quot;请输入要删除关系的两人姓名：friend1 friend2&quot;);</span>
+<span class="nc" id="L328">            }</span>
+        });
+<span class="nc" id="L330">    }</span>
+
+    private void initFunc2() {
+<span class="nc" id="L333">        button2.setText(&quot;增加一个朋友&quot;);</span>
+<span class="nc" id="L334">        button2.setFocusable(false);</span>
+<span class="nc" id="L335">        textField2.setText(&quot;请输入一个朋友的信息：姓名 年龄 性别（M|F）&quot;);</span>
+<span class="nc" id="L336">        button2.addActionListener(new ActionListener() {</span>
+
+            public void actionPerformed(ActionEvent e) {
+                try {
+<span class="nc" id="L340">                    logger.log(Level.INFO, &quot;你的输入是：&quot; + textField2.getText());</span>
+<span class="nc" id="L341">                    String[] strings = textField2.getText().split(&quot; &quot;);</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">                    if (socialNetworkCircle.getFriendByName(strings[0]) != null) {</span>
+<span class="nc" id="L343">                        textField2.setText(&quot;该名字已被占用，请重新输入&quot;);</span>
+<span class="nc" id="L344">                        logger.log(Level.WARNING, &quot;该名字已被占用：&quot; + strings[0]);</span>
+<span class="nc" id="L345">                    } else {</span>
+<span class="nc" id="L346">                        logger.log(Level.INFO, &quot;朋友添加成功：&quot; + strings[0]);</span>
+<span class="nc" id="L347">                        Friend friend = new Friend();</span>
+<span class="nc" id="L348">                        friend.setFriendName(strings[0]);</span>
+<span class="nc" id="L349">                        friend.setAge(Integer.parseInt(strings[1]));</span>
+<span class="nc" id="L350">                        friend.setSex(strings[2]);</span>
+<span class="nc" id="L351">                        socialNetworkCircle.addFriend(friend);</span>
+<span class="nc" id="L352">                        textField2.setText(friend + &quot;添加成功&quot;);</span>
+<span class="nc" id="L353">                        initFunc3();</span>
+<span class="nc" id="L354">                        textField4.setText(&quot;熵值：&quot; + socialNetworkCircle.getSystemEntropy());</span>
+<span class="nc" id="L355">                        initFunc5();</span>
+<span class="nc" id="L356">                        comboBox5.repaint();</span>
+<span class="nc" id="L357">                        textField5.setText(&quot;查询朋友在第几层轨道上&quot;);</span>
+<span class="nc" id="L358">                        initFunc6();</span>
+<span class="nc" id="L359">                        comboBox6.repaint();</span>
+<span class="nc" id="L360">                        textField6.setText(&quot;查询中心用户某直接好友的扩散程度&quot;);</span>
+<span class="nc" id="L361">                        textField7.setText(&quot;请输入要增加关系的两人姓名及亲密度：friend1 friend2 intimacy&quot;);</span>
+<span class="nc" id="L362">                        textField8.setText(&quot;请输入要删除关系的两人姓名：friend1 friend2&quot;);</span>
+                    }
+<span class="nc" id="L364">                } catch (Exception e2) {</span>
+<span class="nc" id="L365">                    logger.log(Level.SEVERE, &quot;输入格式非法&quot;);</span>
+<span class="nc" id="L366">                    textField2.setText(&quot;输入格式非法！&quot;);</span>
+                }
+<span class="nc" id="L368">            }</span>
+        });
+<span class="nc" id="L370">    }</span>
+
+    private void initFunc3() {
+<span class="nc" id="L373">        comboBox3.removeAllItems();</span>
+<span class="nc" id="L374">        comboBox3.addItem(&quot;删除朋友&quot;);</span>
+<span class="nc bnc" id="L375" title="All 2 branches missed.">        for (int i = 0, j = 0; i &lt; socialNetworkCircle.getFriendNum(); i++) {</span>
+<span class="nc" id="L376">            if (!socialNetworkCircle.getFriend(i + 1).getFriendName()</span>
+<span class="nc bnc" id="L377" title="All 2 branches missed.">                    .equals(socialNetworkCircle.getCentralPoint().getFriendName())) {</span>
+<span class="nc" id="L378">                comboBox3.addItem((++j) + &quot;:&quot; + socialNetworkCircle.getFriend(i + 1).getFriendName());</span>
+            }
+        }
+<span class="nc" id="L381">        textField4.setText(&quot;熵值：&quot; + socialNetworkCircle.getSystemEntropy());</span>
+<span class="nc" id="L382">        textField6.setText(&quot;查询中心用户某直接好友的扩散程度&quot;);</span>
+<span class="nc" id="L383">        textField7.setText(&quot;请输入要增加关系的两人姓名及亲密度：friend1 friend2 intimacy&quot;);</span>
+<span class="nc" id="L384">        textField8.setText(&quot;请输入要删除关系的两人姓名：friend1 friend2&quot;);</span>
+<span class="nc" id="L385">    }</span>
+
+    private void initFunc5() {
+<span class="nc" id="L388">        comboBox5.removeAllItems();</span>
+<span class="nc" id="L389">        comboBox5.addItem(&quot;判断轨道&quot;);</span>
+<span class="nc bnc" id="L390" title="All 2 branches missed.">        for (int i = 0, j = 0; i &lt; socialNetworkCircle.getFriendNum(); i++) {</span>
+<span class="nc bnc" id="L391" title="All 2 branches missed.">            if (!socialNetworkCircle.getFriend(i + 1).equals(socialNetworkCircle.getCentralPoint())) {</span>
+<span class="nc" id="L392">                comboBox5.addItem((++j) + &quot;:&quot; + socialNetworkCircle.getFriend(i + 1).getFriendName());</span>
+            }
+        }
+<span class="nc" id="L395">    }</span>
+
+    private void initFunc6() {
+<span class="nc" id="L398">        comboBox6.removeAllItems();</span>
+<span class="nc" id="L399">        comboBox6.addItem(&quot;关系扩散&quot;);</span>
+<span class="nc bnc" id="L400" title="All 2 branches missed.">        if (socialNetworkCircle.getTracksNumber() == 0) {</span>
+<span class="nc" id="L401">            return;</span>
+        }
+<span class="nc" id="L403">        Track&lt;Friend&gt; track = socialNetworkCircle.getTrack(1);</span>
+<span class="nc bnc" id="L404" title="All 2 branches missed.">        for (int i = 0; i &lt; track.getNumberOfObjects(); i++) {</span>
+<span class="nc" id="L405">            comboBox6.addItem((i + 1) + &quot;:&quot; + track.getTrackObjects().get(i).getFriendName());</span>
+        }
+<span class="nc" id="L407">    }</span>
+
+    private void initFunc7() {
+<span class="nc" id="L410">        button7.setText(&quot;增加关系&quot;);</span>
+<span class="nc" id="L411">        button7.setFocusable(false);</span>
+<span class="nc" id="L412">        textField7.setText(&quot;请输入要增加关系的两人姓名及亲密度：friend1 friend2 intimacy&quot;);</span>
+<span class="nc" id="L413">        button7.addActionListener(new ActionListener() {</span>
+
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L416">                logger.log(Level.INFO, &quot;增加关系，你的输入是：&quot; + textField7);</span>
+<span class="nc" id="L417">                String[] strings = textField7.getText().split(&quot; &quot;);</span>
+<span class="nc bnc" id="L418" title="All 2 branches missed.">                if (strings.length == 3) {</span>
+<span class="nc" id="L419">                    Friend friend1 = socialNetworkCircle.getFriendByName(strings[0]);</span>
+<span class="nc" id="L420">                    Friend friend2 = socialNetworkCircle.getFriendByName(strings[1]);</span>
+<span class="nc bnc" id="L421" title="All 4 branches missed.">                    if (friend1 != null &amp;&amp; friend2 != null) {</span>
+<span class="nc" id="L422">                        logger.log(Level.INFO, &quot;添加关系成功：&quot; + friend1 + friend2);</span>
+<span class="nc" id="L423">                        socialNetworkCircle.addRelationAndRefactor(friend1, friend2, Double.parseDouble(strings[2]));</span>
+<span class="nc" id="L424">                        textField7.setText(friend1.toString() + friend2 + &quot;已成功与添加关系！&quot;);</span>
+<span class="nc" id="L425">                        initFunc6();</span>
+<span class="nc" id="L426">                        comboBox6.repaint();</span>
+<span class="nc" id="L427">                    } else {</span>
+<span class="nc" id="L428">                        logger.log(Level.WARNING, &quot;输入用户不存在！&quot;);</span>
+<span class="nc" id="L429">                        textField7.setText(&quot;输入用户不存在&quot;);</span>
+                    }
+<span class="nc" id="L431">                } else {</span>
+<span class="nc" id="L432">                    logger.log(Level.SEVERE, &quot;输入参数错误，请重新输入！&quot;);</span>
+<span class="nc" id="L433">                    textField7.setText(&quot;输入参数错误，请重新输入！&quot;);</span>
+                }
+<span class="nc" id="L435">                textField8.setText(&quot;请输入要删除关系的两人姓名：friend1 friend2&quot;);</span>
+<span class="nc" id="L436">            }</span>
+        });
+<span class="nc" id="L438">    }</span>
+
+    private void initFunc8() {
+<span class="nc" id="L441">        button8.setText(&quot;删除关系&quot;);</span>
+<span class="nc" id="L442">        button8.setFocusable(false);</span>
+<span class="nc" id="L443">        textField8.setText(&quot;请输入要删除关系的两人姓名：friend1 friend2&quot;);</span>
+<span class="nc" id="L444">        button8.addActionListener(new ActionListener() {</span>
+
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L447">                logger.log(Level.INFO, &quot;删除关系，你的输入是：&quot; + textField8);</span>
+<span class="nc" id="L448">                String[] strings = textField8.getText().split(&quot; &quot;);</span>
+<span class="nc bnc" id="L449" title="All 2 branches missed.">                if (strings.length == 2) {</span>
+<span class="nc" id="L450">                    Friend friend1 = socialNetworkCircle.getFriendByName(strings[0]);</span>
+<span class="nc" id="L451">                    Friend friend2 = socialNetworkCircle.getFriendByName(strings[1]);</span>
+<span class="nc bnc" id="L452" title="All 4 branches missed.">                    if (friend1 != null &amp;&amp; friend2 != null) {</span>
+<span class="nc bnc" id="L453" title="All 2 branches missed.">                        if (friend1.getAllFriends().contains(friend2)) {</span>
+<span class="nc" id="L454">                            logger.log(Level.INFO, &quot;删除关系成功！&quot;);</span>
+<span class="nc" id="L455">                            socialNetworkCircle.deleteRelationAndRefactor(friend1, friend2);</span>
+<span class="nc" id="L456">                            textField8.setText(friend1.toString() + friend2 + &quot;已成功与删除关系！&quot;);</span>
+<span class="nc" id="L457">                            initFunc6();</span>
+<span class="nc" id="L458">                            comboBox6.repaint();</span>
+<span class="nc" id="L459">                        } else {</span>
+<span class="nc" id="L460">                            logger.log(Level.WARNING, &quot;输入两人之间无关系！&quot;);</span>
+<span class="nc" id="L461">                            textField8.setText(&quot;输入参数错误：两人无关系！&quot;);</span>
+                        }
+<span class="nc" id="L463">                    } else {</span>
+<span class="nc" id="L464">                        logger.log(Level.WARNING, &quot;输入用户不存在！&quot;);</span>
+<span class="nc" id="L465">                        textField8.setText(&quot;输入用户不存在&quot;);</span>
+                    }
+<span class="nc" id="L467">                } else {</span>
+<span class="nc" id="L468">                    logger.log(Level.SEVERE, &quot;输入参数错误！&quot;);</span>
+<span class="nc" id="L469">                    textField8.setText(&quot;输入参数错误，请重新输入！&quot;);</span>
+                }
+<span class="nc" id="L471">            }</span>
+        });
+<span class="nc" id="L473">    }</span>
+
+    private void initFunc9() {
+<span class="nc" id="L476">        button9.setText(&quot;重选游戏系统&quot;);</span>
+<span class="nc" id="L477">        button9.setFocusable(false);</span>
+<span class="nc" id="L478">        button9.addActionListener(new ActionListener() {</span>
+
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L481">                logger.log(Level.INFO, &quot;重选游戏系统：退出社交系统&quot;);</span>
+<span class="nc" id="L482">                frame.dispose();</span>
+<span class="nc" id="L483">                App.main(&quot;   &quot;.split(&quot; &quot;));</span>
+<span class="nc" id="L484">            }</span>
+        });
+<span class="nc" id="L486">    }</span>
+
+    public void GUI() {
+<span class="nc" id="L489">        initFrame();</span>
+<span class="nc" id="L490">        frame.validate();</span>
+<span class="nc" id="L491">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>test (2019年5月19日 下午11:06:41)</div></body></html>

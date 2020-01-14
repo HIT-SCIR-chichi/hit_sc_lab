@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>StellarSystemGUI.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2019年5月19日 下午11:06:41)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1172510217</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">applications</a> &gt; <span class="el_source">StellarSystemGUI.java</span></div><h1>StellarSystemGUI.java</h1><pre class="source lang-java linenums">package applications;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.geom.Ellipse2D;
+import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import circularOrbit.StellarSystem;
+import myException.FileChooseException;
+import physicalObject.StellarSystemObject;
+import track.Track;
+
+<span class="nc" id="L39">public class StellarSystemGUI {</span>
+
+<span class="nc" id="L41">    private static final Logger logger = Logger.getLogger(App.class.getSimpleName());</span>
+
+<span class="nc" id="L43">    private JFrame frame = new JFrame();</span>
+    private JPanel panel1;
+<span class="nc" id="L45">    private JPanel panel2 = new JPanel();</span>
+<span class="nc" id="L46">    private Map&lt;String, Color&gt; colorMap = new HashMap&lt;String, Color&gt;();</span>
+<span class="nc" id="L47">    private double time = 0;</span>
+<span class="nc" id="L48">    private int controlSpan = 0;</span>
+
+<span class="nc" id="L50">    private JComboBox&lt;String&gt; comboBox1 = new JComboBox&lt;&gt;();</span>
+<span class="nc" id="L51">    private JButton button2 = new JButton();</span>
+<span class="nc" id="L52">    private JComboBox&lt;String&gt; comboBox3 = new JComboBox&lt;&gt;();</span>
+<span class="nc" id="L53">    private JTextField textField4 = new JTextField();</span>
+
+<span class="nc" id="L55">    private JButton button5 = new JButton();</span>
+<span class="nc" id="L56">    private JTextField textField5 = new JTextField();</span>
+
+<span class="nc" id="L58">    private JButton button6 = new JButton();</span>
+<span class="nc" id="L59">    private JTextField textField6 = new JTextField();</span>
+
+<span class="nc" id="L61">    private JButton button7 = new JButton();</span>
+
+<span class="nc" id="L63">    private JButton button8 = new JButton();</span>
+
+<span class="nc" id="L65">    private StellarSystem stellarSystem = new StellarSystem();</span>
+<span class="nc" id="L66">    File stellarSystemFile = new File(&quot;&quot;);</span>
+
+    private void changeStellarSystem(int flag) throws FileChooseException, IOException {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (flag == 1) {</span>
+<span class="nc" id="L70">            stellarSystemFile = new File(&quot;src/Spring2019_HITCS_SC_Lab3-master/StellarSystem.txt&quot;);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        } else if (flag == 2) {</span>
+<span class="nc" id="L72">            stellarSystemFile = new File(&quot;src/Spring2019_HITCS_SC_Lab3-master/StellarSystem_Medium.txt&quot;);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        } else if (flag == 3) {</span>
+<span class="nc" id="L74">            stellarSystemFile = new File(&quot;src/Spring2019_HITCS_SC_Lab3-master/StellarSystem_Larger.txt&quot;);</span>
+<span class="nc" id="L75">        } else {</span>
+<span class="nc" id="L76">            System.out.println(&quot;文件选取参数有误！&quot;);</span>
+<span class="nc" id="L77">            System.exit(0);</span>
+        }
+<span class="nc" id="L79">        stellarSystem = new StellarSystem();</span>
+<span class="nc" id="L80">        stellarSystem.readFileAndCreateSystem(stellarSystemFile);</span>
+<span class="nc" id="L81">    }</span>
+
+    private void changeStellarSystem(String fileString) {
+<span class="nc" id="L84">        stellarSystemFile = new File(fileString);</span>
+<span class="nc" id="L85">        stellarSystem = new StellarSystem();</span>
+        try {
+<span class="nc" id="L87">            stellarSystem.readFileAndCreateSystem(stellarSystemFile);</span>
+<span class="nc" id="L88">        } catch (FileChooseException e) {</span>
+<span class="nc" id="L89">            logger.log(Level.SEVERE, e.getMessage());</span>
+<span class="nc" id="L90">            String fileString1 = JOptionPane.showInputDialog(&quot;警告：选取的文件不合乎规范，请重新输入要选择的文件&quot;);</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">            if (fileString1 != null) {</span>
+<span class="nc" id="L92">                logger.log(Level.INFO, &quot;重新选择读取输入的文件：&quot; + fileString1);</span>
+<span class="nc" id="L93">                changeStellarSystem(fileString1);</span>
+            }
+<span class="nc" id="L95">        } catch (IOException e) {</span>
+<span class="nc" id="L96">            logger.log(Level.SEVERE, &quot;无法处理的IO异常&quot;);</span>
+        }
+<span class="nc" id="L98">    }</span>
+
+    private void initFrame() {
+<span class="nc" id="L101">        frame.setTitle(&quot;StellarSystem GUI @Author ZJR&quot;);</span>
+<span class="nc" id="L102">        frame.setLayout(new GridLayout());</span>
+<span class="nc" id="L103">        frame.setVisible(true);// 设为可见</span>
+<span class="nc" id="L104">        frame.setExtendedState(Frame.MAXIMIZED_BOTH);// 设置窗口全屏</span>
+<span class="nc" id="L105">        frame.setDefaultCloseOperation(3);</span>
+
+<span class="nc" id="L107">        initPanel2();</span>
+<span class="nc" id="L108">        initPanel1();</span>
+
+<span class="nc" id="L110">        frame.add(panel1);</span>
+<span class="nc" id="L111">        frame.add(panel2);</span>
+<span class="nc" id="L112">    }</span>
+
+    private void initPanel1() {
+<span class="nc" id="L115">        panel1 = new JPanel() {</span>
+
+            @Override public void paint(Graphics g) {
+<span class="nc" id="L118">                panel1.updateUI();</span>
+<span class="nc" id="L119">                super.paint(g);</span>
+<span class="nc" id="L120">                panel1.setBackground(Color.DARK_GRAY);</span>
+<span class="nc" id="L121">                ImageIcon imageIcon = new ImageIcon(&quot;src/img/Stellar.jpg&quot;);</span>
+<span class="nc" id="L122">                imageIcon.setImage(</span>
+<span class="nc" id="L123">                        imageIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_AREA_AVERAGING));</span>
+<span class="nc" id="L124">                g.drawImage(imageIcon.getImage(), 0, 0, this);</span>
+<span class="nc" id="L125">                Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();</span>
+<span class="nc" id="L126">                int x = (int) dimension.getWidth() / 4;</span>
+<span class="nc" id="L127">                int y = (int) (dimension.getHeight() - frame.getInsets().top) / 2;</span>
+<span class="nc" id="L128">                int count = stellarSystem.getTracksNumber();</span>
+<span class="nc" id="L129">                g.setColor(Color.green);</span>
+<span class="nc" id="L130">                double r = (double) (x - 10) / count;</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">                if (stellarSystem.getCentralPoint() != null) {</span>
+<span class="nc" id="L132">                    g.fillOval(x - 5, y - 5, 10, 10);</span>
+                }
+<span class="nc" id="L134">                Graphics2D g2d = (Graphics2D) g;</span>
+<span class="nc" id="L135">                int direction = 0;</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">                for (int i = count - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L137">                    double d = r * (i + 1);</span>
+<span class="nc" id="L138">                    g2d.setColor(Color.orange);</span>
+<span class="nc" id="L139">                    g2d.draw(new Ellipse2D.Double(x - d - 5, y - d - 5, 2 * d + 10, 2 * d + 10));</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">                    for (int j = 0; j &lt; stellarSystem.getTrack(i + 1).getNumberOfObjects(); j++) {</span>
+<span class="nc" id="L141">                        StellarSystemObject planet = stellarSystem.getTrack(i + 1).getTrackObjects().get(0);</span>
+<span class="nc" id="L142">                        String color = planet.getPlanetColor();</span>
+<span class="nc" id="L143">                        String directionString = planet.getRevolutionDiretion();</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">                        if (directionString.equals(&quot;CCW&quot;)) {</span>
+<span class="nc" id="L145">                            direction = -1;</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                        } else if (directionString.equals(&quot;CW&quot;)) {</span>
+<span class="nc" id="L147">                            direction = 1;</span>
+<span class="nc" id="L148">                        } else {</span>
+<span class="nc" id="L149">                            System.out.println(&quot;错误旋转方向&quot;);</span>
+                        }
+<span class="nc" id="L151">                        double angle = planet.getAngle();</span>
+<span class="nc" id="L152">                        double angleDif = direction * planet.getRevolutionSpeed() * 360</span>
+<span class="nc" id="L153">                                / (2 * Math.PI * planet.getTrackRadius());</span>
+<span class="nc" id="L154">                        g2d.setColor(colorMap.get(color));</span>
+<span class="nc" id="L155">                        g2d.draw(new Ellipse2D.Double(</span>
+<span class="nc" id="L156">                                x + Math.cos(angle + (controlSpan % 2) * time * angleDif) * (d + 5) - 5,</span>
+<span class="nc" id="L157">                                y + Math.sin(angle + (controlSpan % 2) * angleDif * time) * (d + 5) - 5, 10, 10));</span>
+                    }
+                }
+
+<span class="nc" id="L161">            }</span>
+        };
+<span class="nc" id="L163">    }</span>
+
+    private void initPanel2() {
+<span class="nc" id="L166">        GridLayout gridLayout = new GridLayout(12, 1);</span>
+<span class="nc" id="L167">        panel2.setLayout(gridLayout);</span>
+<span class="nc" id="L168">        JTextField textField = new JTextField();</span>
+<span class="nc" id="L169">        textField.setText(&quot;功能展示&quot;);</span>
+<span class="nc" id="L170">        textField.setFocusable(false);</span>
+<span class="nc" id="L171">        textField.setEditable(false);</span>
+<span class="nc" id="L172">        panel2.add(textField);</span>
+
+        // 功能一：文件生成
+<span class="nc" id="L175">        comboBox1.addItem(&quot;文件生成&quot;);</span>
+<span class="nc" id="L176">        panel2.add(comboBox1);</span>
+<span class="nc" id="L177">        initFunc1();</span>
+
+<span class="nc" id="L179">        panel2.add(button2);</span>
+<span class="nc" id="L180">        initFunc2();</span>
+
+        // 功能三：删除特定序号的轨道
+<span class="nc" id="L183">        panel2.add(comboBox3);</span>
+<span class="nc" id="L184">        initFunc3();</span>
+<span class="nc" id="L185">        comboBox3.addItemListener(new ItemListener() {</span>
+
+            public void itemStateChanged(ItemEvent e) {
+<span class="nc bnc" id="L188" title="All 2 branches missed.">                if (e.getStateChange() == ItemEvent.SELECTED) {</span>
+<span class="nc" id="L189">                    int num = comboBox3.getSelectedIndex();</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">                    if (num != 0) {</span>
+<span class="nc" id="L191">                        logger.log(Level.INFO, &quot;删除轨道：&quot; + num);</span>
+<span class="nc" id="L192">                        stellarSystem.deleteTrack(stellarSystem.getTrack(num));</span>
+<span class="nc" id="L193">                        panel1.repaint();</span>
+<span class="nc" id="L194">                        initFunc3();</span>
+<span class="nc" id="L195">                        comboBox3.repaint();</span>
+<span class="nc" id="L196">                        textField4.setText(&quot;熵值：&quot; + stellarSystem.getSystemEntropy());</span>
+                    }
+                }
+<span class="nc" id="L199">            }</span>
+        });
+
+        // 功能四：计算系统的熵值
+<span class="nc" id="L203">        textField4.setText(&quot;熵值：&quot;);</span>
+<span class="nc" id="L204">        textField4.setEditable(false);</span>
+<span class="nc" id="L205">        panel2.add(textField4);</span>
+
+        // 功能五：计算某时刻某天体的角度位置
+<span class="nc" id="L208">        panel2.add(button5);</span>
+<span class="nc" id="L209">        panel2.add(textField5);</span>
+<span class="nc" id="L210">        initFunc5();</span>
+
+        // 功能六：计算某两个天体之间的距离
+<span class="nc" id="L213">        panel2.add(button6);</span>
+<span class="nc" id="L214">        panel2.add(textField6);</span>
+<span class="nc" id="L215">        initFunc6();</span>
+
+<span class="nc" id="L217">        panel2.add(button7);</span>
+<span class="nc" id="L218">        initFunc7();</span>
+
+<span class="nc" id="L220">        panel2.add(button8);</span>
+<span class="nc" id="L221">        initFunc8();</span>
+<span class="nc" id="L222">    }</span>
+
+    private void initFunc1() {
+<span class="nc" id="L225">        comboBox1.addItem(&quot;小文件&quot;);</span>
+<span class="nc" id="L226">        comboBox1.addItem(&quot;中文件&quot;);</span>
+<span class="nc" id="L227">        comboBox1.addItem(&quot;大文件&quot;);</span>
+<span class="nc" id="L228">        comboBox1.addItemListener(new ItemListener() {</span>
+
+            public void itemStateChanged(ItemEvent e) {
+<span class="nc bnc" id="L231" title="All 2 branches missed.">                if (e.getStateChange() == ItemEvent.SELECTED) {</span>
+                    try {
+<span class="nc bnc" id="L233" title="All 2 branches missed.">                        if (e.getItem().equals(&quot;小文件&quot;)) {</span>
+<span class="nc" id="L234">                            logger.log(Level.INFO, &quot;读取小文件&quot;);</span>
+<span class="nc" id="L235">                            changeStellarSystem(1);</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">                        } else if (e.getItem().equals(&quot;中文件&quot;)) {</span>
+<span class="nc" id="L237">                            logger.log(Level.INFO, &quot;读取中文件&quot;);</span>
+<span class="nc" id="L238">                            changeStellarSystem(2);</span>
+<span class="nc bnc" id="L239" title="All 2 branches missed.">                        } else if (e.getItem().equals(&quot;大文件&quot;)) {</span>
+<span class="nc" id="L240">                            logger.log(Level.INFO, &quot;读取大文件&quot;);</span>
+<span class="nc" id="L241">                            changeStellarSystem(3);</span>
+                        }
+<span class="nc" id="L243">                        initFunc3();</span>
+<span class="nc" id="L244">                        time = 0;</span>
+<span class="nc" id="L245">                        controlSpan = 0;</span>
+<span class="nc" id="L246">                        comboBox3.repaint();</span>
+<span class="nc" id="L247">                        textField4.setText(&quot;熵值：&quot; + stellarSystem.getSystemEntropy());</span>
+<span class="nc" id="L248">                        stellarSystem.setReadTime(Calendar.getInstance());</span>
+<span class="nc" id="L249">                    } catch (FileChooseException e2) {</span>
+<span class="nc" id="L250">                        logger.log(Level.SEVERE, e2.getMessage());</span>
+<span class="nc" id="L251">                        String fileString = JOptionPane.showInputDialog(&quot;警告：选取的文件不合乎规范，请重新输入要选择的文件&quot;);</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">                        if (fileString != null) {</span>
+<span class="nc" id="L253">                            logger.log(Level.INFO, &quot;重新选择读取输入的文件：&quot; + fileString);</span>
+<span class="nc" id="L254">                            changeStellarSystem(fileString);</span>
+<span class="nc" id="L255">                            initFunc3();</span>
+<span class="nc" id="L256">                            time = 0;</span>
+<span class="nc" id="L257">                            controlSpan = 0;</span>
+<span class="nc" id="L258">                            comboBox3.repaint();</span>
+<span class="nc" id="L259">                            textField4.setText(&quot;熵值：&quot; + stellarSystem.getSystemEntropy());</span>
+<span class="nc" id="L260">                            stellarSystem.setReadTime(Calendar.getInstance());</span>
+                        }
+<span class="nc" id="L262">                    } catch (IOException e2) {</span>
+<span class="nc" id="L263">                        logger.log(Level.SEVERE, &quot;无法处理的IO异常&quot;);</span>
+                    }
+                }
+<span class="nc" id="L266">            }</span>
+        });
+<span class="nc" id="L268">    }</span>
+
+    private void initFunc2() {
+<span class="nc" id="L271">        button2.setText(&quot;添加轨道/物体&quot;);</span>
+<span class="nc" id="L272">        button2.setFocusable(false);</span>
+<span class="nc" id="L273">        JTextField textField = new JTextField(&quot;按顺序输入：轨道半径、名称、形态、颜色、半径、公转速度、公转方向、起始角度&quot;);</span>
+<span class="nc" id="L274">        panel2.add(textField);</span>
+<span class="nc" id="L275">        button2.addActionListener(new ActionListener() {</span>
+
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L278">                logger.log(Level.INFO, &quot;添加轨道/物体：&quot; + textField.getText());</span>
+                try {
+<span class="nc" id="L280">                    String[] strings = textField.getText().split(&quot; &quot;);</span>
+<span class="nc bnc" id="L281" title="All 2 branches missed.">                    if (stellarSystem.getTrackByRadius(Double.parseDouble(strings[0])) == null) {</span>
+<span class="nc" id="L282">                        Track&lt;StellarSystemObject&gt; track = new Track&lt;&gt;(Double.parseDouble(strings[0]));</span>
+<span class="nc" id="L283">                        StellarSystemObject planet = new StellarSystemObject(strings[1], strings[2], strings[3],</span>
+<span class="nc" id="L284">                                Double.parseDouble(strings[4]), Double.parseDouble(strings[5]), strings[6],</span>
+<span class="nc" id="L285">                                Double.parseDouble(strings[7]));</span>
+<span class="nc" id="L286">                        planet.setTrackRadius(Double.parseDouble(strings[0]));</span>
+<span class="nc" id="L287">                        stellarSystem.addTrack(track);</span>
+<span class="nc" id="L288">                        stellarSystem.addTrackObject(track, planet);</span>
+<span class="nc" id="L289">                        initFunc3();</span>
+<span class="nc" id="L290">                        comboBox3.repaint();</span>
+<span class="nc" id="L291">                        textField4.setText(&quot;熵值：&quot; + stellarSystem.getSystemEntropy());</span>
+                    }
+<span class="nc" id="L293">                } catch (Exception e2) {</span>
+<span class="nc" id="L294">                    logger.log(Level.SEVERE, &quot;添加轨道/物体失败：输入不符合格式要求&quot;);</span>
+<span class="nc" id="L295">                    textField.setText(&quot;输入格式非法！&quot;);</span>
+                }
+
+<span class="nc" id="L298">            }</span>
+        });
+
+<span class="nc" id="L301">    }</span>
+
+    private void initFunc3() {
+<span class="nc" id="L304">        comboBox3.removeAllItems();</span>
+<span class="nc" id="L305">        comboBox3.addItem(&quot;删除轨道&quot;);</span>
+<span class="nc bnc" id="L306" title="All 2 branches missed.">        for (int i = 0; i &lt; stellarSystem.getTracksNumber(); i++) {</span>
+<span class="nc" id="L307">            comboBox3.addItem(&quot;&quot; + (i + 1));</span>
+        }
+<span class="nc" id="L309">    }</span>
+
+    private void initFunc5() {
+<span class="nc" id="L312">        button5.setText(&quot;计算位置&quot;);</span>
+<span class="nc" id="L313">        button5.setFocusable(false);</span>
+<span class="nc" id="L314">        textField5.setText(&quot;按顺序输入：物体序号 年 月 日 时 分 秒&quot;);</span>
+<span class="nc" id="L315">        button5.addActionListener(new ActionListener() {</span>
+
+            public void actionPerformed(ActionEvent e) {
+                try {
+<span class="nc" id="L319">                    String[] strings = textField5.getText().split(&quot; &quot;);</span>
+<span class="nc bnc" id="L320" title="All 2 branches missed.">                    if (Integer.parseInt(strings[0]) &lt;= stellarSystem.getTracksNumber()) {</span>
+<span class="nc" id="L321">                        Calendar targetTime = Calendar.getInstance();</span>
+<span class="nc" id="L322">                        targetTime.set(Integer.parseInt(strings[1]), Integer.parseInt(strings[2]),</span>
+<span class="nc" id="L323">                                Integer.parseInt(strings[3]), Integer.parseInt(strings[4]),</span>
+<span class="nc" id="L324">                                Integer.parseInt(strings[5]), Integer.parseInt(strings[6]));</span>
+<span class="nc bnc" id="L325" title="All 2 branches missed.">                        if (targetTime.before(stellarSystem.getReadTime())) {</span>
+<span class="nc" id="L326">                            System.out.println(&quot;输入时间错误：早于读取时间！&quot;);</span>
+<span class="nc" id="L327">                        } else {</span>
+<span class="nc" id="L328">                            String targetTimeString = strings[1] + &quot;年&quot; + strings[2] + &quot;月&quot; + strings[3] + &quot;日&quot;</span>
+<span class="nc" id="L329">                                    + strings[4] + &quot;时&quot; + strings[5] + &quot;分&quot; + strings[6] + &quot;秒&quot;;</span>
+<span class="nc" id="L330">                            textField5.setText(&quot;物体&quot; + strings[0] + &quot;在指定时刻&quot; + targetTimeString + &quot;的角度位置是&quot;</span>
+<span class="nc" id="L331">                                    + stellarSystem.calculatePosition(stellarSystem</span>
+<span class="nc" id="L332">                                            .getTrack(Integer.parseInt(strings[0])).getTrackObjects().get(0),</span>
+<span class="nc" id="L333">                                            targetTime)</span>
+<span class="nc" id="L334">                                    + &quot;°&quot;);</span>
+                        }
+<span class="nc" id="L336">                        logger.log(Level.INFO, &quot;计算某时刻某行星的角度成功：&quot; + textField5.getText());</span>
+                    }
+<span class="nc" id="L338">                } catch (Exception e2) {</span>
+<span class="nc" id="L339">                    logger.log(Level.SEVERE, &quot;计算某时刻某行星的角度失败：输入格式非法&quot;);</span>
+<span class="nc" id="L340">                    textField5.setText(&quot;输入格式非法！&quot;);</span>
+                }
+<span class="nc" id="L342">            }</span>
+
+        });
+
+<span class="nc" id="L346">    }</span>
+
+    private void initFunc6() {
+<span class="nc" id="L349">        button6.setText(&quot;计算距离&quot;);</span>
+<span class="nc" id="L350">        button6.setFocusable(false);</span>
+<span class="nc" id="L351">        textField6.setText(&quot;输入序号：第一个天体 第二个天体（序号0表示中心天体）&quot;);</span>
+<span class="nc" id="L352">        button6.addActionListener(new ActionListener() {</span>
+
+            public void actionPerformed(ActionEvent e) {
+                try {
+<span class="nc" id="L356">                    String[] strings = textField6.getText().split(&quot; &quot;);</span>
+<span class="nc" id="L357">                    int num1 = Integer.parseInt(strings[0]);</span>
+<span class="nc" id="L358">                    int num2 = Integer.parseInt(strings[1]);</span>
+<span class="nc bnc" id="L359" title="All 6 branches missed.">                    if (num1 &gt; stellarSystem.getTracksNumber() || num1 &lt; 0 || num2 &gt; stellarSystem.getTracksNumber()</span>
+<span class="nc bnc" id="L360" title="All 2 branches missed.">                            || num2 &lt; 0) {</span>
+<span class="nc" id="L361">                        textField6.setText(&quot;输入违法：超出范围！&quot;);</span>
+<span class="nc" id="L362">                    } else {</span>
+<span class="nc bnc" id="L363" title="All 2 branches missed.">                        if (num1 == num2) {</span>
+<span class="nc" id="L364">                            System.out.println(&quot;输入违法：数值一样！&quot;);</span>
+<span class="nc" id="L365">                        } else {</span>
+<span class="nc bnc" id="L366" title="All 2 branches missed.">                            if (num1 == 0) {</span>
+<span class="nc" id="L367">                                textField6</span>
+<span class="nc" id="L368">                                        .setText(</span>
+<span class="nc" id="L369">                                                &quot;恒星&quot; + &quot;和行星&quot; + num2 + &quot;的距离是 &quot;</span>
+<span class="nc" id="L370">                                                        + stellarSystem.getPhysicalDistanceStar(</span>
+<span class="nc" id="L371">                                                                stellarSystem.getTrack(num2).getTrackObjects().get(0))</span>
+<span class="nc" id="L372">                                                        + &quot; KM&quot;);</span>
+<span class="nc bnc" id="L373" title="All 2 branches missed.">                            } else if (num2 == 0) {</span>
+<span class="nc" id="L374">                                textField6</span>
+<span class="nc" id="L375">                                        .setText(</span>
+<span class="nc" id="L376">                                                &quot;行星&quot; + num1 + &quot;和恒星的距离是 &quot;</span>
+<span class="nc" id="L377">                                                        + stellarSystem.getPhysicalDistanceStar(</span>
+<span class="nc" id="L378">                                                                stellarSystem.getTrack(num1).getTrackObjects().get(0))</span>
+<span class="nc" id="L379">                                                        + &quot; KM&quot;);</span>
+<span class="nc" id="L380">                            } else {</span>
+<span class="nc" id="L381">                                textField6.setText(&quot;行星&quot; + num1 + &quot;行星&quot; + num2 + &quot;的距离是 &quot;</span>
+<span class="nc" id="L382">                                        + stellarSystem.getPhysicalDistance(</span>
+<span class="nc" id="L383">                                                stellarSystem.getTrack(num1).getTrackObjects().get(0),</span>
+<span class="nc" id="L384">                                                stellarSystem.getTrack(num2).getTrackObjects().get(0))</span>
+<span class="nc" id="L385">                                        + &quot; KM&quot;);</span>
+                            }
+                        }
+                    }
+<span class="nc" id="L389">                    logger.log(Level.INFO, &quot;计算两颗星体的物理距离成功：&quot; + textField6.getText());</span>
+<span class="nc" id="L390">                } catch (Exception e2) {</span>
+<span class="nc" id="L391">                    logger.log(Level.SEVERE, &quot;计算两颗星体的物理距离失败：输入格式非法&quot;);</span>
+<span class="nc" id="L392">                    textField6.setText(&quot;输入格式非法！&quot;);</span>
+                }
+<span class="nc" id="L394">            }</span>
+        });
+
+<span class="nc" id="L397">    }</span>
+
+    private void initFunc7() {
+<span class="nc" id="L400">        button7.setText(&quot;模拟天体运动&quot;);</span>
+<span class="nc" id="L401">        button7.setFocusable(false);</span>
+<span class="nc" id="L402">        button7.addActionListener(new ActionListener() {</span>
+
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L405">                controlSpan++;</span>
+<span class="nc bnc" id="L406" title="All 2 branches missed.">                if (controlSpan % 2 == 0) {</span>
+<span class="nc" id="L407">                    logger.log(Level.INFO, &quot;行星系统动态化停止&quot;);</span>
+<span class="nc" id="L408">                } else {</span>
+<span class="nc" id="L409">                    logger.log(Level.INFO, &quot;行星系统动态化&quot;);</span>
+                }
+<span class="nc" id="L411">                move();</span>
+<span class="nc" id="L412">            }</span>
+        });
+<span class="nc" id="L414">    }</span>
+
+    private void initFunc8() {
+<span class="nc" id="L417">        button8.setText(&quot;重选游戏系统&quot;);</span>
+<span class="nc" id="L418">        button8.setFocusable(false);</span>
+<span class="nc" id="L419">        button8.addActionListener(new ActionListener() {</span>
+
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L422">                logger.log(Level.INFO, &quot;重选游戏系统：退出行星系统&quot;);</span>
+<span class="nc" id="L423">                frame.dispose();</span>
+<span class="nc" id="L424">                App.main(&quot;   &quot;.split(&quot; &quot;));</span>
+<span class="nc" id="L425">            }</span>
+        });
+<span class="nc" id="L427">    }</span>
+
+    private void move() {
+<span class="nc" id="L430">        Timer timer = new Timer();</span>
+<span class="nc" id="L431">        TimerTask task = new TimerTask() {</span>
+
+            @Override public void run() {
+<span class="nc" id="L434">                panel1.updateUI();</span>
+<span class="nc" id="L435">                time += 0.01;</span>
+<span class="nc" id="L436">            }</span>
+        };
+<span class="nc" id="L438">        timer.schedule(task, 0, 10);</span>
+<span class="nc" id="L439">    }</span>
+
+    private void initColorMap() {
+<span class="nc" id="L442">        colorMap.put(&quot;Pink&quot;, Color.pink);</span>
+<span class="nc" id="L443">        colorMap.put(&quot;Grey&quot;, Color.gray);</span>
+<span class="nc" id="L444">        colorMap.put(&quot;Azure&quot;, new Color(240, 255, 255));</span>
+<span class="nc" id="L445">        colorMap.put(&quot;Blue&quot;, Color.blue);</span>
+<span class="nc" id="L446">        colorMap.put(&quot;Green&quot;, Color.green);</span>
+<span class="nc" id="L447">        colorMap.put(&quot;Red&quot;, Color.red);</span>
+<span class="nc" id="L448">        colorMap.put(&quot;Yellow&quot;, Color.yellow);</span>
+<span class="nc" id="L449">        colorMap.put(&quot;White&quot;, Color.white);</span>
+<span class="nc" id="L450">        colorMap.put(&quot;Dark&quot;, Color.darkGray);</span>
+<span class="nc" id="L451">        colorMap.put(&quot;Purple&quot;, new Color(128, 0, 128));</span>
+<span class="nc" id="L452">        colorMap.put(&quot;Orange&quot;, Color.orange);</span>
+<span class="nc" id="L453">    }</span>
+
+    public void GUI() {
+<span class="nc" id="L456">        initColorMap();// 将颜色字符串与其对应的颜色对象一一对应起来</span>
+<span class="nc" id="L457">        initFrame();</span>
+<span class="nc" id="L458">        frame.validate();</span>
+<span class="nc" id="L459">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>test (2019年5月19日 下午11:06:41)</div></body></html>
