@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TrackTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2019年5月19日 下午11:06:41)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1172510217</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">track</a> &gt; <span class="el_source">TrackTest.java</span></div><h1>TrackTest.java</h1><pre class="source lang-java linenums">package track;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
+import physicalObject.PhysicalObject;
+
+<span class="fc" id="L12">class TrackTest {</span>
+
+    /**
+     * testing strategy : 测试获取的正确性
+     */
+    @Test void testGetRadius() {
+<span class="fc" id="L18">        Track&lt;PhysicalObject&gt; track = new Track&lt;&gt;(100);</span>
+<span class="fc" id="L19">        assertEquals(track.getRadius(), 100);</span>
+<span class="fc" id="L20">    }</span>
+
+    /**
+     * 测试track中不含某物体+已含有某物体
+     */
+    @Test void testAdd() {
+<span class="fc" id="L26">        Track&lt;PhysicalObject&gt; track = new Track&lt;&gt;(100);</span>
+<span class="fc" id="L27">        PhysicalObject physicalObject = new PhysicalObject();</span>
+<span class="fc" id="L28">        physicalObject.setTrackRadius(100);</span>
+<span class="fc" id="L29">        track.add(physicalObject);</span>
+<span class="fc" id="L30">        assertTrue(track.getTrackObjects().contains(physicalObject));</span>
+<span class="fc" id="L31">        Boolean res = track.add(physicalObject);</span>
+<span class="fc" id="L32">        assertFalse(res);</span>
+<span class="fc" id="L33">        assertTrue(track.contains(physicalObject));</span>
+<span class="fc" id="L34">    }</span>
+
+    /**
+     * 测试track中含有某物体删除的情况或不含有某物体删除的情况
+     */
+    @Test void testRemove() {
+<span class="fc" id="L40">        Track&lt;PhysicalObject&gt; track = new Track&lt;&gt;(100);</span>
+<span class="fc" id="L41">        boolean res = true;</span>
+<span class="fc" id="L42">        PhysicalObject physicalObject = new PhysicalObject();</span>
+<span class="fc" id="L43">        physicalObject.setTrackRadius(100);</span>
+<span class="fc" id="L44">        res = track.remove(physicalObject);</span>
+        // 测试track中不含有某物体删除的情况
+<span class="fc" id="L46">        assertFalse(res);</span>
+<span class="fc" id="L47">        assertFalse(track.contains(physicalObject));</span>
+        // 测试track中含有某物体删除的情况
+<span class="fc" id="L49">        track.add(physicalObject);</span>
+<span class="fc" id="L50">        res = track.remove(physicalObject);</span>
+<span class="fc" id="L51">        assertTrue(res);</span>
+<span class="fc" id="L52">        assertFalse(track.contains(physicalObject));</span>
+<span class="fc" id="L53">    }</span>
+
+    /**
+     * 测试track中不含某物体（返回false）+含有某物体（返回true）
+     */
+    @Test void testContains() {
+<span class="fc" id="L59">        Track&lt;PhysicalObject&gt; track = new Track&lt;&gt;(100);</span>
+<span class="fc" id="L60">        PhysicalObject physicalObject = new PhysicalObject();</span>
+<span class="fc" id="L61">        physicalObject.setTrackRadius(100);</span>
+        // 测试track中不含某物体（返回false）
+<span class="fc" id="L63">        assertFalse(track.contains(physicalObject));</span>
+        // 测试含有某物体（返回true）
+<span class="fc" id="L65">        track.add(physicalObject);</span>
+<span class="fc" id="L66">        assertTrue(track.contains(physicalObject));</span>
+<span class="fc" id="L67">    }</span>
+    
+    /**
+     * testing strategy : 轨道中有多个物体
+     */
+    @Test void testToString() {
+<span class="fc" id="L73">        Track&lt;PhysicalObject&gt; track = new Track&lt;&gt;(100);</span>
+<span class="fc" id="L74">        PhysicalObject physicalObject = new PhysicalObject();</span>
+<span class="fc" id="L75">        physicalObject.setTrackRadius(100);</span>
+<span class="fc" id="L76">        PhysicalObject physicalObject1 = new PhysicalObject();</span>
+<span class="fc" id="L77">        physicalObject1.setTrackRadius(100);</span>
+<span class="fc" id="L78">        track.add(physicalObject);</span>
+<span class="fc" id="L79">        track.add(physicalObject1);</span>
+<span class="fc" id="L80">        String string = &quot;radius=&quot; + 100.0 + &quot; : &quot;;</span>
+<span class="fc" id="L81">        string += &quot;[e]&quot; + &quot; &quot;;</span>
+<span class="fc" id="L82">        string += &quot;[e]&quot; + &quot; &quot;;</span>
+<span class="fc" id="L83">        assertEquals(string, track.toString());</span>
+<span class="fc" id="L84">    }</span>
+
+    /**
+     * testing strategy : track不含物体+含有多个物体
+     */
+    @Test void testGetNumberOfObjects() {
+<span class="fc" id="L90">        Track&lt;PhysicalObject&gt; track = new Track&lt;&gt;(100);</span>
+<span class="fc" id="L91">        PhysicalObject physicalObject = new PhysicalObject();</span>
+<span class="fc" id="L92">        physicalObject.setTrackRadius(100);</span>
+<span class="fc" id="L93">        PhysicalObject physicalObject1 = new PhysicalObject();</span>
+<span class="fc" id="L94">        physicalObject1.setTrackRadius(100);</span>
+        // track不含物体
+<span class="fc" id="L96">        assertEquals(0, track.getNumberOfObjects());</span>
+        // 含有多个物体
+<span class="fc" id="L98">        track.add(physicalObject);</span>
+<span class="fc" id="L99">        track.add(physicalObject1);</span>
+<span class="fc" id="L100">        track.add(physicalObject1);</span>
+<span class="fc" id="L101">        assertEquals(2, track.getNumberOfObjects());</span>
+<span class="fc" id="L102">    }</span>
+
+    /**
+     * testing strategy : 多个物体
+     */
+    @Test void testGetTrackObjects() {
+<span class="fc" id="L108">        Track&lt;PhysicalObject&gt; track = new Track&lt;&gt;(100);</span>
+<span class="fc" id="L109">        PhysicalObject physicalObject = new PhysicalObject();</span>
+<span class="fc" id="L110">        physicalObject.setTrackRadius(100);</span>
+<span class="fc" id="L111">        PhysicalObject physicalObject1 = new PhysicalObject();</span>
+<span class="fc" id="L112">        physicalObject1.setTrackRadius(100);</span>
+<span class="fc" id="L113">        track.add(physicalObject);</span>
+<span class="fc" id="L114">        track.add(physicalObject1);</span>
+<span class="fc" id="L115">        List&lt;PhysicalObject&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L116">        list.add(physicalObject);</span>
+<span class="fc" id="L117">        list.add(physicalObject1);</span>
+<span class="fc" id="L118">        assertEquals(list, track.getTrackObjects());</span>
+<span class="fc" id="L119">    }</span>
+
+    /**
+     * testing strategy : 不含有某物体，返回-1；含有某物体，返回index
+     */
+    @Test void testGetPhysicalObjectIndex() {
+<span class="fc" id="L125">        Track&lt;PhysicalObject&gt; track = new Track&lt;&gt;(100);</span>
+<span class="fc" id="L126">        PhysicalObject physicalObject = new PhysicalObject();</span>
+<span class="fc" id="L127">        physicalObject.setTrackRadius(100);</span>
+<span class="fc" id="L128">        PhysicalObject physicalObject1 = new PhysicalObject();</span>
+<span class="fc" id="L129">        physicalObject1.setTrackRadius(100);</span>
+        // 不含有某物体，返回-1
+<span class="fc" id="L131">        assertEquals(-1, track.getPhysicalObjectIndex(physicalObject));</span>
+        // 含有某物体，返回index
+<span class="fc" id="L133">        track.add(physicalObject1);</span>
+<span class="fc" id="L134">        track.add(physicalObject);</span>
+<span class="fc" id="L135">        assertEquals(1, track.getPhysicalObjectIndex(physicalObject));</span>
+<span class="fc" id="L136">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>test (2019年5月19日 下午11:06:41)</div></body></html>

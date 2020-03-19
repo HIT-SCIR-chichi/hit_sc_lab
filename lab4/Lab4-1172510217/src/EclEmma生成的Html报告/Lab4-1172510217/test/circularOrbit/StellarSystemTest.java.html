@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>StellarSystemTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2019年5月19日 下午11:06:41)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1172510217</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">circularOrbit</a> &gt; <span class="el_source">StellarSystemTest.java</span></div><h1>StellarSystemTest.java</h1><pre class="source lang-java linenums">package circularOrbit;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
+
+import org.junit.jupiter.api.Test;
+
+import centralObject.Stellar;
+import myException.FileChooseException;
+import physicalObject.StellarSystemObject;
+import track.Track;
+
+<span class="fc" id="L16">class StellarSystemTest {</span>
+
+    /**
+     * 恒星label错误
+     */
+    @Test void lableTest() throws IOException {
+<span class="fc" id="L22">        File file = new File(&quot;src/TestFile/StellarSystemFile/LabelTest.txt&quot;);</span>
+<span class="fc" id="L23">        StellarSystem stellarSystem = new StellarSystem();</span>
+        try {
+<span class="nc" id="L25">            stellarSystem.readFileAndCreateSystem(file);</span>
+<span class="nc" id="L26">            assertTrue(false, &quot;此处不可达&quot;);</span>
+<span class="pc" id="L27">        } catch (FileChooseException e) {</span>
+<span class="fc" id="L28">            assertEquals(e.getClass(), new FileChooseException().getClass());</span>
+        }
+<span class="fc" id="L30">    }</span>
+
+    /**
+     * 科学记数法表示错误
+     */
+    @Test void e_notationTest() throws IOException {
+<span class="fc" id="L36">        File file = new File(&quot;src/TestFile/StellarSystemFile/E_NotationTest.txt&quot;);</span>
+<span class="fc" id="L37">        StellarSystem stellarSystem = new StellarSystem();</span>
+        try {
+<span class="nc" id="L39">            stellarSystem.readFileAndCreateSystem(file);</span>
+<span class="nc" id="L40">            assertTrue(false, &quot;此处不可达&quot;);</span>
+<span class="pc" id="L41">        } catch (FileChooseException e) {</span>
+<span class="fc" id="L42">            assertEquals(e.getClass(), new FileChooseException().getClass());</span>
+        }
+<span class="fc" id="L44">    }</span>
+
+    /**
+     * 测试公转方向错误
+     */
+    @Test void revolutionDirectionTest() throws IOException {
+<span class="fc" id="L50">        File file = new File(&quot;src/TestFile/StellarSystemFile/RevolutionDirectionTest.txt&quot;);</span>
+<span class="fc" id="L51">        StellarSystem stellarSystem = new StellarSystem();</span>
+        try {
+<span class="nc" id="L53">            stellarSystem.readFileAndCreateSystem(file);</span>
+<span class="nc" id="L54">            assertTrue(false, &quot;此处不可达&quot;);</span>
+<span class="pc" id="L55">        } catch (FileChooseException e) {</span>
+<span class="fc" id="L56">            assertEquals(e.getClass(), new FileChooseException().getClass());</span>
+        }
+<span class="fc" id="L58">    }</span>
+
+    /**
+     * 测试初始角度错误
+     */
+    @Test void angelTest() throws IOException {
+<span class="fc" id="L64">        File file = new File(&quot;src/TestFile/StellarSystemFile/AngelTest.txt&quot;);</span>
+<span class="fc" id="L65">        StellarSystem stellarSystem = new StellarSystem();</span>
+        try {
+<span class="nc" id="L67">            stellarSystem.readFileAndCreateSystem(file);</span>
+<span class="nc" id="L68">            assertTrue(false, &quot;此处不可达&quot;);</span>
+<span class="pc" id="L69">        } catch (FileChooseException e) {</span>
+<span class="fc" id="L70">            assertEquals(e.getClass(), new FileChooseException().getClass());</span>
+        }
+<span class="fc" id="L72">    }</span>
+    
+    /**
+     * 测试中心恒星缺失
+     */
+    @Test void noStellarTest() throws IOException {
+<span class="fc" id="L78">        File file = new File(&quot;src/TestFile/StellarSystemFile/NoStellarTest.txt&quot;);</span>
+<span class="fc" id="L79">        StellarSystem stellarSystem = new StellarSystem();</span>
+        try {
+<span class="nc" id="L81">            stellarSystem.readFileAndCreateSystem(file);</span>
+<span class="nc" id="L82">            assertTrue(false, &quot;此处不可达&quot;);</span>
+<span class="pc" id="L83">        } catch (FileChooseException e) {</span>
+<span class="fc" id="L84">            assertEquals(e.getClass(), new FileChooseException().getClass());</span>
+        }
+<span class="fc" id="L86">    }</span>
+
+    /**
+     * testing strategy : 无中心物体 + 轨道上物体数目异常 + 相邻轨道半径之差小于两相邻行星半径之和+标签相同
+     */
+    @Test void testCheckRep() {
+<span class="fc" id="L92">        StellarSystem stellarSystem = new StellarSystem();</span>
+        try {
+<span class="nc" id="L94">            stellarSystem.checkRep();</span>
+<span class="pc" id="L95">        } catch (FileChooseException e) {</span>
+<span class="fc" id="L96">            assertTrue(true);</span>
+        }
+<span class="fc" id="L98">        Stellar stellar = new Stellar();</span>
+<span class="fc" id="L99">        stellar.setName(&quot;@Author ZJR&quot;);</span>
+<span class="fc" id="L100">        stellar.setMess(100);</span>
+<span class="fc" id="L101">        stellar.setRadius(1);</span>
+<span class="fc" id="L102">        stellarSystem.addCentralPoint(stellar);</span>
+        try {
+<span class="fc" id="L104">            stellarSystem.checkRep();</span>
+<span class="fc" id="L105">            assertTrue(true);</span>
+<span class="pc" id="L106">        } catch (FileChooseException e) {</span>
+<span class="nc" id="L107">            assertTrue(false);</span>
+        }
+<span class="fc" id="L109">        Track&lt;StellarSystemObject&gt; track = new Track&lt;&gt;(7);</span>
+<span class="fc" id="L110">        stellarSystem.addTrack(track);</span>
+        try {
+<span class="nc" id="L112">            stellarSystem.checkRep();</span>
+<span class="pc" id="L113">        } catch (FileChooseException e) {</span>
+<span class="fc" id="L114">            assertTrue(true);</span>
+        }
+<span class="fc" id="L116">        StellarSystemObject planet = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 1, 2, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L117">        planet.setTrackRadius(7);</span>
+<span class="fc" id="L118">        track.add(planet);</span>
+        try {
+<span class="fc" id="L120">            assertTrue(true);</span>
+<span class="fc" id="L121">            stellarSystem.checkRep();</span>
+<span class="pc" id="L122">        } catch (FileChooseException e) {</span>
+<span class="nc" id="L123">            assertTrue(false);</span>
+        }
+<span class="fc" id="L125">        Track&lt;StellarSystemObject&gt; track2 = new Track&lt;&gt;(10);</span>
+<span class="fc" id="L126">        stellarSystem.addTrack(track2);</span>
+<span class="fc" id="L127">        StellarSystemObject planet2 = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 1, 2, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L128">        planet2.setTrackRadius(10);</span>
+<span class="fc" id="L129">        track2.add(planet2);</span>
+        try {
+<span class="nc" id="L131">            stellarSystem.checkRep();</span>
+<span class="pc" id="L132">        } catch (FileChooseException e) {</span>
+<span class="fc" id="L133">            assertTrue(true);</span>
+        }
+<span class="fc" id="L135">        Track&lt;StellarSystemObject&gt; track3 = new Track&lt;&gt;(11);</span>
+<span class="fc" id="L136">        stellarSystem.addTrack(track3);</span>
+<span class="fc" id="L137">        StellarSystemObject planet3 = new StellarSystemObject(&quot;D&quot;, &quot;B&quot;, &quot;C&quot;, 4, 2, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L138">        planet3.setTrackRadius(11);</span>
+<span class="fc" id="L139">        track3.add(planet3);</span>
+<span class="fc" id="L140">        stellarSystem.deleteTrack(track2);</span>
+        try {
+<span class="nc" id="L142">            stellarSystem.checkRep();</span>
+<span class="pc" id="L143">        } catch (FileChooseException e) {</span>
+<span class="fc" id="L144">            assertTrue(true);</span>
+        }
+<span class="fc" id="L146">    }</span>
+
+    /**
+     * testing strategy : 旋转方向为CW，旋转方向为CCW
+     */
+    @Test void testCalculatePosition() {
+<span class="fc" id="L152">        StellarSystem stellarSystem = new StellarSystem();</span>
+<span class="fc" id="L153">        Stellar stellar = new Stellar();</span>
+<span class="fc" id="L154">        Track&lt;StellarSystemObject&gt; track = new Track&lt;&gt;(4);</span>
+<span class="fc" id="L155">        StellarSystemObject planet = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 1, 2, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L156">        stellarSystem.addCentralPoint(stellar);</span>
+<span class="fc" id="L157">        stellarSystem.addTrack(track);</span>
+<span class="fc" id="L158">        track.add(planet);</span>
+<span class="fc" id="L159">        planet.setTrackRadius(4);</span>
+<span class="fc" id="L160">        Calendar targetTime = Calendar.getInstance();</span>
+<span class="fc" id="L161">        stellarSystem.setReadTime(targetTime);</span>
+<span class="fc" id="L162">        Calendar newTime = Calendar.getInstance();</span>
+<span class="fc" id="L163">        newTime.setTimeInMillis(newTime.getTimeInMillis() + 1000);</span>
+        // 旋转方向为CW
+<span class="fc" id="L165">        assertEquals(0, stellarSystem.calculatePosition(planet, targetTime));</span>
+        // 旋转方向为CCW
+<span class="fc" id="L167">        StellarSystemObject planet2 = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 1, 2, &quot;CCW&quot;, 0);</span>
+<span class="fc" id="L168">        assertEquals(0, stellarSystem.calculatePosition(planet2, targetTime));</span>
+<span class="fc" id="L169">    }</span>
+
+    /**
+     * testing strategy : 测试正常情况：均非空
+     */
+    @Test void testGetPhysicalDistance() {
+<span class="fc" id="L175">        StellarSystem stellarSystem = new StellarSystem();</span>
+<span class="fc" id="L176">        Stellar stellar = new Stellar();</span>
+<span class="fc" id="L177">        Track&lt;StellarSystemObject&gt; track1 = new Track&lt;&gt;(2);</span>
+<span class="fc" id="L178">        Track&lt;StellarSystemObject&gt; track2 = new Track&lt;&gt;(4);</span>
+<span class="fc" id="L179">        StellarSystemObject planet1 = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 1, 2, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L180">        StellarSystemObject planet2 = new StellarSystemObject(&quot;A1&quot;, &quot;B&quot;, &quot;C&quot;, 1, 2, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L181">        stellarSystem.addCentralPoint(stellar);</span>
+<span class="fc" id="L182">        stellarSystem.addTrack(track1);</span>
+<span class="fc" id="L183">        track1.add(planet1);</span>
+<span class="fc" id="L184">        track2.add(planet2);</span>
+<span class="fc" id="L185">        planet1.setTrackRadius(2);</span>
+<span class="fc" id="L186">        planet2.setTrackRadius(4);</span>
+<span class="fc" id="L187">        assertEquals(2, stellarSystem.getPhysicalDistance(planet1, planet2));</span>
+<span class="fc" id="L188">    }</span>
+
+    /**
+     * testing strategy : 测试正常情况
+     */
+    @Test void testGetPhysicalDistanceStar() {
+<span class="fc" id="L194">        StellarSystem stellarSystem = new StellarSystem();</span>
+<span class="fc" id="L195">        Stellar stellar = new Stellar();</span>
+<span class="fc" id="L196">        Track&lt;StellarSystemObject&gt; track = new Track&lt;&gt;(2);</span>
+<span class="fc" id="L197">        StellarSystemObject planet = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 1, 2, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L198">        stellarSystem.addCentralPoint(stellar);</span>
+<span class="fc" id="L199">        stellarSystem.addTrack(track);</span>
+<span class="fc" id="L200">        track.add(planet);</span>
+<span class="fc" id="L201">        planet.setTrackRadius(2);</span>
+<span class="fc" id="L202">        assertEquals(2, stellarSystem.getPhysicalDistanceStar(planet));</span>
+<span class="fc" id="L203">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>test (2019年5月19日 下午11:06:41)</div></body></html>

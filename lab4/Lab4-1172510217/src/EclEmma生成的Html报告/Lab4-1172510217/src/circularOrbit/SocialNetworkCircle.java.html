@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SocialNetworkCircle.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2019年5月19日 下午11:06:41)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1172510217</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">circularOrbit</a> &gt; <span class="el_source">SocialNetworkCircle.java</span></div><h1>SocialNetworkCircle.java</h1><pre class="source lang-java linenums">package circularOrbit;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import applications.App;
+import myException.CentralObjectException;
+import myException.DependencyException;
+import myException.FileChooseException;
+import myException.FileGrammerException;
+import myException.LabelSameException;
+import myException.SystemLegalException;
+import physicalObject.Friend;
+import track.Track;
+
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">public class SocialNetworkCircle extends ConcreteCircularOrbit&lt;Friend, Friend&gt; {</span>
+
+<span class="fc" id="L30">    private List&lt;Friend&gt; allFriends = new ArrayList&lt;&gt;();// 储存所有的朋友</span>
+<span class="fc" id="L31">    private static final Logger logger = Logger.getLogger(App.class.getSimpleName());</span>
+
+    public void readFileAndCreateSystem(File file) throws IOException, FileChooseException {
+        try {
+<span class="fc" id="L35">            InputStreamReader reader = new InputStreamReader(new FileInputStream(file));</span>
+<span class="fc" id="L36">            BufferedReader bfReader = new BufferedReader(reader);</span>
+<span class="fc" id="L37">            Pattern pattern1 = Pattern.compile(&quot;CentralUser ::= &lt;[ ]*(\\S+)[ ]*,[ ]*(\\S+)[ ]*,[ ]*(\\S+)[ ]*&gt;&quot;);</span>
+<span class="fc" id="L38">            Pattern pattern2 = Pattern.compile(&quot;Friend ::= &lt;[ ]*(\\S+)[ ]*,[ ]*(\\S+)[ ]*,[ ]*(\\S+)[ ]*&gt;&quot;);</span>
+<span class="fc" id="L39">            Pattern pattern3 = Pattern.compile(&quot;SocialTie ::= &lt;[ ]*(\\S+)[ ]*,[ ]*(\\S+)[ ]*,[ ]*(\\S+)[ ]*&gt;&quot;);</span>
+<span class="fc" id="L40">            String lineString = new String();</span>
+<span class="fc" id="L41">            int count = 0;</span>
+            Matcher matcher;
+<span class="fc" id="L43">            int lineCount = 0;</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            while ((lineString = bfReader.readLine()) != null) {</span>
+<span class="fc" id="L45">                lineCount++;// 行计数自加一</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">                if ((matcher = pattern1.matcher(lineString)).find()) {</span>
+<span class="fc" id="L47">                    count++;</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">                    if (!Pattern.matches(&quot;[A-Za-z0-9]+&quot;, matcher.group(1))) {</span>
+<span class="fc" id="L49">                        bfReader.close();</span>
+<span class="fc" id="L50">                        throw new FileGrammerException(&quot;中心用户名非法，行数：&quot; + lineCount, 30);</span>
+                    }
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">                    if (!Pattern.matches(&quot;\\d+&quot;, matcher.group(2))) {</span>
+<span class="nc" id="L53">                        bfReader.close();</span>
+<span class="nc" id="L54">                        throw new FileGrammerException(&quot;年龄非法，行数：&quot; + lineCount, 30);</span>
+                    }
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">                    if (!Pattern.matches(&quot;M|F&quot;, matcher.group(3))) {</span>
+<span class="nc" id="L57">                        bfReader.close();</span>
+<span class="nc" id="L58">                        throw new FileGrammerException(&quot;性别非特定的两字符，行数：&quot; + lineCount, 30);</span>
+                    }
+<span class="fc" id="L60">                    Friend centralUser = new Friend();</span>
+<span class="fc" id="L61">                    centralUser.setAge(Integer.parseInt(matcher.group(2)));</span>
+<span class="fc" id="L62">                    centralUser.setFriendName(matcher.group(1));</span>
+<span class="fc" id="L63">                    centralUser.setSex(matcher.group(3));</span>
+<span class="fc" id="L64">                    centralUser.setTrackRadius(0);</span>
+<span class="fc" id="L65">                    addCentralPoint(centralUser);</span>
+<span class="fc" id="L66">                    addFriend(centralUser);</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                } else if ((matcher = pattern2.matcher(lineString)).find()) {</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">                    if (!Pattern.matches(&quot;[A-Za-z0-9]+&quot;, matcher.group(1))) {</span>
+<span class="nc" id="L69">                        bfReader.close();</span>
+<span class="nc" id="L70">                        throw new FileGrammerException(&quot;朋友姓名非法，行数：&quot; + lineCount, 30);</span>
+                    }
+<span class="fc bfc" id="L72" title="All 2 branches covered.">                    if (!Pattern.matches(&quot;\\d+&quot;, matcher.group(2))) {</span>
+<span class="fc" id="L73">                        bfReader.close();</span>
+<span class="fc" id="L74">                        throw new FileGrammerException(&quot;年龄非法，行数：&quot; + lineCount, 30);</span>
+                    }
+<span class="fc bfc" id="L76" title="All 2 branches covered.">                    if (!Pattern.matches(&quot;M|F&quot;, matcher.group(3))) {</span>
+<span class="fc" id="L77">                        bfReader.close();</span>
+<span class="fc" id="L78">                        throw new FileGrammerException(&quot;性别非特定的两字符，行数：&quot; + lineCount, 30);</span>
+                    }
+<span class="fc" id="L80">                    Friend friend = getFriendByName(matcher.group(1));</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">                    if (friend == null) {</span>
+<span class="nc" id="L82">                        friend = new Friend();</span>
+<span class="nc" id="L83">                        friend.setFriendName(matcher.group(1));</span>
+<span class="nc" id="L84">                        friend.setAge(Integer.parseInt(matcher.group(2)));</span>
+<span class="nc" id="L85">                        friend.setSex(matcher.group(3));</span>
+<span class="nc" id="L86">                        addFriend(friend);</span>
+<span class="nc" id="L87">                    } else {</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">                        if (!friend.getSex().equals(&quot;&quot;)) {</span>
+<span class="fc" id="L89">                            bfReader.close();</span>
+<span class="fc" id="L90">                            throw new LabelSameException(&quot;该朋友姓名已存在，行数：&quot; + lineCount);</span>
+                        } else {
+<span class="fc" id="L92">                            friend.setAge(Integer.parseInt(matcher.group(2)));</span>
+<span class="fc" id="L93">                            friend.setSex(matcher.group(3));</span>
+                        }
+                    }
+<span class="fc bfc" id="L96" title="All 2 branches covered.">                } else if ((matcher = pattern3.matcher(lineString)).find()) {</span>
+<span class="fc" id="L97">                    String f1String = matcher.group(1);</span>
+<span class="fc" id="L98">                    String f2String = matcher.group(2);</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">                    if (!Pattern.matches(&quot;[A-Za-z0-9]+&quot;, f1String)) {</span>
+<span class="nc" id="L100">                        bfReader.close();</span>
+<span class="nc" id="L101">                        throw new FileGrammerException(&quot;朋友姓名非法，行数：&quot; + lineCount, 30);</span>
+                    }
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">                    if (!Pattern.matches(&quot;[A-Za-z0-9]+&quot;, f2String)) {</span>
+<span class="nc" id="L104">                        bfReader.close();</span>
+<span class="nc" id="L105">                        throw new FileGrammerException(&quot;朋友姓名非法，行数：&quot; + lineCount, 30);</span>
+                    }
+<span class="fc bfc" id="L107" title="All 2 branches covered.">                    if (!Pattern.matches(&quot;([0][.][0-9]{0,2}[1-9])|([1]([.][0]{0,3})?)&quot;, matcher.group(3))) {</span>
+<span class="fc" id="L108">                        bfReader.close();</span>
+<span class="fc" id="L109">                        throw new FileGrammerException(&quot;亲密度参数错误，行数：&quot; + lineCount, 30);</span>
+                    }
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">                    if (f1String.equals(f2String)) {</span>
+<span class="nc" id="L112">                        bfReader.close();</span>
+<span class="nc" id="L113">                        throw new LabelSameException(&quot;待添加关系的两人为同一个人，行数：&quot; + lineCount);</span>
+                    }
+<span class="fc" id="L115">                    double intimacy = Double.parseDouble(matcher.group(3));</span>
+<span class="fc" id="L116">                    Friend friend1 = getFriendByName(f1String);</span>
+<span class="fc" id="L117">                    Friend friend2 = getFriendByName(f2String);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">                    if (friend1 == null) {</span>
+<span class="fc" id="L119">                        friend1 = new Friend();</span>
+<span class="fc" id="L120">                        friend1.setFriendName(f1String);</span>
+<span class="fc" id="L121">                        addFriend(friend1);</span>
+                    }
+<span class="fc bfc" id="L123" title="All 2 branches covered.">                    if (friend2 == null) {</span>
+<span class="fc" id="L124">                        friend2 = new Friend();</span>
+<span class="fc" id="L125">                        friend2.setFriendName(f2String);</span>
+<span class="fc" id="L126">                        addFriend(friend2);</span>
+                    }
+<span class="pc bpc" id="L128" title="3 of 4 branches missed.">                    if (friend1.getSocialTie(friend2) != 0 &amp;&amp; friend1.getSocialTie(friend2) != intimacy) {</span>
+<span class="nc" id="L129">                        bfReader.close();</span>
+<span class="nc" id="L130">                        throw new LabelSameException(&quot;待添加的两人已存在亲密度且与此处亲密度不同，行数：&quot; + lineCount);</span>
+                    }
+<span class="fc" id="L132">                    friend1.addSocialTie(friend2, intimacy);</span>
+<span class="fc" id="L133">                    friend2.addSocialTie(friend1, intimacy);</span>
+<span class="fc" id="L134">                } else {</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">                    if (!lineString.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L136">                        bfReader.close();</span>
+<span class="fc" id="L137">                        throw new FileGrammerException(&quot;无用信息行，行数：&quot; + lineCount, 31);</span>
+                    }
+                }
+            }
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">            if (count != 1) {</span>
+<span class="nc" id="L142">                bfReader.close();</span>
+<span class="nc" id="L143">                throw new CentralObjectException(&quot;中心用户缺失或多余，行数：&quot; + lineCount);</span>
+            }
+<span class="fc" id="L145">            Friend centralUser = getCentralPoint();</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">            for (Friend friend : allFriends) {</span>
+<span class="fc" id="L147">                friend.setTrackRadius(getDistance(centralUser, friend));</span>
+<span class="fc" id="L148">                this.addFriendOnTrack(friend);// 添加的同时新建轨道</span>
+            }
+<span class="fc" id="L150">            bfReader.close();</span>
+<span class="fc" id="L151">            sortTrack();</span>
+<span class="fc" id="L152">            checkRep();</span>
+<span class="fc" id="L153">        } catch (FileGrammerException e) {</span>
+<span class="fc" id="L154">            throw new FileChooseException(&quot;文件语法解析错误，需要重新选择文件：&quot; + e.getMessage());</span>
+<span class="fc" id="L155">        } catch (LabelSameException e) {</span>
+<span class="fc" id="L156">            throw new FileChooseException(&quot;存在表情相同元素，需要重新选择文件：&quot; + e.getMessage());</span>
+<span class="nc" id="L157">        } catch (CentralObjectException e) {</span>
+<span class="nc" id="L158">            throw new FileChooseException(&quot;中心用户错误，需要重新选择文件：&quot; + e.getMessage());</span>
+        }
+
+<span class="fc" id="L161">    }</span>
+
+    public void checkRep() throws FileChooseException {
+        try {
+            // 判断中心用户是否存在
+<span class="fc bfc" id="L166" title="All 2 branches covered.">            if (getCentralPoint() == null) {</span>
+<span class="fc" id="L167">                throw new CentralObjectException(&quot;缺少中心用户&quot;);</span>
+            }
+<span class="fc" id="L169">            Friend centralUser = getCentralPoint();</span>
+            // 判断彭友所处轨道是否正确，判断是否存在朋友未定义就被用于构建亲密度关系
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            for (Friend friend : allFriends) {</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">                if (getDistance(centralUser, friend) != friend.getTrackRadius()) {</span>
+<span class="nc" id="L173">                    throw new SystemLegalException(&quot;轨道构建违法：存在朋友所在轨道和实际不符&quot;);</span>
+                }
+<span class="fc bfc" id="L175" title="All 2 branches covered.">                if (friend.getSex().equals(&quot;&quot;)) {</span>
+<span class="fc" id="L176">                    throw new DependencyException(&quot;未被定义的朋友即被添加了关系&quot;);</span>
+                }
+            }
+<span class="fc" id="L179">        } catch (CentralObjectException e) {</span>
+<span class="fc" id="L180">            throw new FileChooseException(&quot;中心用户错误，需要重新选择文件：&quot; + e.getMessage());</span>
+<span class="nc" id="L181">        } catch (SystemLegalException e) {</span>
+<span class="nc" id="L182">            System.out.println(&quot;系统退出，系统出现问题&quot;);</span>
+<span class="nc" id="L183">            System.exit(0);</span>
+<span class="fc" id="L184">        } catch (DependencyException e) {</span>
+<span class="fc" id="L185">            throw new FileChooseException(&quot;依赖关系错误，需要重新选择文件：&quot; + e.getMessage());</span>
+        }
+<span class="fc" id="L187">    }</span>
+
+    public boolean addFriend(Friend friend) {
+<span class="pc bpc" id="L190" title="2 of 4 branches missed.">        assert friend != null : logIn(&quot;参数错误：null&quot;);</span>
+<span class="fc" id="L191">        Boolean result = allFriends.contains(friend);</span>
+<span class="fc" id="L192">        allFriends.add(friend);</span>
+<span class="fc" id="L193">        return result;</span>
+    }
+
+    public boolean addCentralUser(Friend centralUser) {
+<span class="fc bfc" id="L197" title="All 2 branches covered.">        if (centralUser == null) {</span>
+<span class="fc" id="L198">            return false;</span>
+        }
+<span class="fc" id="L200">        allFriends.add(centralUser);</span>
+<span class="fc" id="L201">        this.addCentralPoint(centralUser);</span>
+<span class="pc bpc" id="L202" title="2 of 4 branches missed.">        assert getCentralPoint() != null : logIn(&quot;中心用户为null&quot;);</span>
+<span class="fc" id="L203">        return true;</span>
+
+    }
+
+    /**
+     * get the distance of the centralUser and the friend
+     * 
+     * @param friend1 one friend
+     * @param friend2 another friend
+     * @return the distance
+     */
+    public int getDistance(Friend friend1, Friend friend2) {
+<span class="pc bpc" id="L215" title="3 of 6 branches missed.">        assert friend1 != null &amp;&amp; friend2 != null : logIn(&quot;参数错误：null&quot;);</span>
+<span class="pc bpc" id="L216" title="3 of 6 branches missed.">        assert allFriends.contains(friend1) &amp;&amp; allFriends.contains(friend2) : logIn(&quot;参数错误：参数不在系统中&quot;);</span>
+<span class="fc" id="L217">        Map&lt;Friend, Boolean&gt; visited = new HashMap&lt;&gt;();// 用于判断是否被访问</span>
+<span class="fc" id="L218">        Map&lt;Friend, Integer&gt; distance = new HashMap&lt;&gt;();// 用于记录距离</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">        for (Friend temp : allFriends) {// 将所有person标记为未被访问</span>
+<span class="fc" id="L220">            visited.put(temp, false);</span>
+        }
+<span class="fc" id="L222">        visited.put(friend1, true);</span>
+<span class="fc" id="L223">        Queue&lt;Friend&gt; queue = new LinkedBlockingQueue&lt;&gt;();// 先广要用队列来做</span>
+<span class="fc" id="L224">        queue.add(friend1);// person1入队</span>
+<span class="fc" id="L225">        distance.put(friend1, 0);</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">        if (friend1.equals(friend2)) {</span>
+<span class="fc" id="L227">            return 0;</span>
+        }
+<span class="fc bfc" id="L229" title="All 2 branches covered.">        while (!queue.isEmpty()) {// 循环直到队列为空</span>
+<span class="fc" id="L230">            Friend head = queue.poll();// 得到队首元素，并将其出队</span>
+<span class="fc" id="L231">            Friend tempt = head.getAllFriends().peek();// 得到与其有关的第一个人</span>
+<span class="fc" id="L232">            int i = 0;</span>
+<span class="fc bfc" id="L233" title="All 2 branches covered.">            while (tempt != null) {// 循环直到无人与head有直接关系</span>
+<span class="fc bfc" id="L234" title="All 2 branches covered.">                if (!visited.get(tempt)) {// 若tempt未被访问</span>
+<span class="fc bfc" id="L235" title="All 2 branches covered.">                    if (tempt.equals(friend2)) {// 若找到friend</span>
+<span class="fc" id="L236">                        return distance.get(head) + 1;</span>
+                    } else {// 若未找到
+<span class="fc" id="L238">                        visited.put(tempt, true);</span>
+<span class="fc" id="L239">                        distance.put(tempt, distance.get(head) + 1);</span>
+<span class="fc" id="L240">                        queue.add(tempt);// 将当前friend入队</span>
+                    }
+                }
+<span class="fc bfc" id="L243" title="All 2 branches covered.">                if (++i &lt; head.getAllFriends().size()) {// 继续寻找与其有关系的人</span>
+<span class="fc" id="L244">                    tempt = head.getAllFriends().get(i);</span>
+                } else {
+                    break;
+                }
+            }
+        }
+<span class="fc" id="L250">        return -1;</span>
+    }
+
+    public Friend getFriendByName(String name) {
+<span class="fc bfc" id="L254" title="All 2 branches covered.">        for (Friend friend : allFriends) {</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">            if (friend.getFriendName().equals(name)) {</span>
+<span class="fc" id="L256">                return friend;</span>
+            }
+        }
+<span class="fc" id="L259">        return null;</span>
+    }
+
+    public boolean addFriendOnTrack(Friend friend) {
+<span class="pc bpc" id="L263" title="2 of 4 branches missed.">        assert friend != null : logIn(&quot;参数错误：null&quot;);</span>
+<span class="fc bfc" id="L264" title="All 4 branches covered.">        if (friend.getTrackRadius() == -1 || friend.equals(getCentralPoint())) {</span>
+<span class="fc" id="L265">            return false;</span>
+        }
+<span class="fc" id="L267">        Track&lt;Friend&gt; track = getTrackByRadius(friend.getTrackRadius());</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">        if (track == null) {</span>
+<span class="fc" id="L269">            track = new Track&lt;Friend&gt;(friend.getTrackRadius());</span>
+<span class="fc" id="L270">            track.add(friend);</span>
+<span class="fc" id="L271">            addTrack(track);</span>
+<span class="fc" id="L272">            return true;</span>
+        }
+<span class="fc" id="L274">        return track.add(friend);</span>
+    }
+
+    /**
+     * get the friend's track number
+     * 
+     * @param friend the centralUser's friend
+     * @return the number on which track the friend is
+     */
+    public int getFriendTrackNum(Friend friend) {
+<span class="pc bpc" id="L284" title="2 of 4 branches missed.">        assert friend != null : logIn(&quot;参数错误：null&quot;);</span>
+<span class="fc" id="L285">        int result = (int) friend.getTrackRadius();</span>
+<span class="fc bfc" id="L286" title="All 2 branches covered.">        if (result == -1) {</span>
+<span class="fc" id="L287">            System.out.println(&quot;He/She is not the friend of the centralUser!&quot;);</span>
+<span class="fc bfc" id="L288" title="All 2 branches covered.">        } else if (result == 0) {</span>
+<span class="fc" id="L289">            System.out.println(&quot;He/She is the centralUser!&quot;);</span>
+        }
+<span class="fc" id="L291">        return result;</span>
+    }
+
+    /**
+     * get logical distance between friend1 and friend2
+     * 
+     * @param friend1 one friend
+     * @param friend2 another friend
+     * @return the logical distance
+     */
+    public int getLogicalDistance(Friend friend1, Friend friend2) {
+<span class="pc bpc" id="L302" title="3 of 6 branches missed.">        assert friend1 != null &amp;&amp; friend2 != null : logIn(&quot;参数错误：null&quot;);</span>
+<span class="fc" id="L303">        int result = getDistance(friend1, friend2);</span>
+<span class="fc bfc" id="L304" title="All 2 branches covered.">        if (result == 0) {</span>
+<span class="fc" id="L305">            System.out.println(&quot;两者为同一人！&quot;);</span>
+<span class="fc bfc" id="L306" title="All 2 branches covered.">        } else if (result == -1) {</span>
+<span class="fc" id="L307">            System.out.println(&quot;两者之间无任何关系！&quot;);</span>
+        }
+<span class="fc" id="L309">        return result;</span>
+    }
+
+    /**
+     * calculate the &quot;information diffusion&quot; of a friend in the first orbit
+     * 
+     * @return the number of new friends who can you meet indirectly through this
+     *         friend
+     */
+    public int Informationdiffusivity(Friend friend) {
+<span class="pc bpc" id="L319" title="2 of 4 branches missed.">        assert friend != null : logIn(&quot;参数错误：null&quot;);</span>
+<span class="fc bfc" id="L320" title="All 2 branches covered.">        if (friend.getTrackRadius() != 1) {</span>
+<span class="fc" id="L321">            System.out.println(&quot;该朋友不是中心用户的朋友！&quot;);</span>
+<span class="fc" id="L322">            return -1;</span>
+        }
+<span class="fc" id="L324">        int result = 0;</span>
+<span class="fc bfc" id="L325" title="All 2 branches covered.">        for (Friend friend2 : friend.getAllFriends()) {</span>
+<span class="pc bpc" id="L326" title="1 of 2 branches missed.">            if (!getCentralPoint().getAllFriends().contains(friend2)// 若中心用户朋友的朋友不是中心用户的朋友而且关系亲密度乘积大于0.25，则说明有可能认识</span>
+<span class="fc bfc" id="L327" title="All 2 branches covered.">                    &amp;&amp; getCentralPoint().getSocialTie(friend) * friend.getSocialTie(friend2) &gt; 0.25) {</span>
+<span class="fc" id="L328">                result++;</span>
+            }
+        }
+<span class="fc" id="L331">        return result;</span>
+    }
+
+    /**
+     * add a relation between friend1 and friend2, and recreate the system
+     * 
+     * @param friend1  one friend
+     * @param friend2  another friend
+     * @param intimacy the intimacy between friend1 and friend2
+     */
+    public boolean addRelationAndRefactor(Friend friend1, Friend friend2, double intimacy) {
+<span class="fc bfc" id="L342" title="All 4 branches covered.">        if (friend1 == null || friend2 == null) {</span>
+<span class="fc" id="L343">            return false;</span>
+        }
+<span class="fc bfc" id="L345" title="All 2 branches covered.">        if (friend1.getSocialTie(friend2) != 0) {</span>
+<span class="fc" id="L346">            return false;</span>
+        }
+<span class="fc" id="L348">        Pattern pattern = Pattern.compile(&quot;([0][.][0-9]{0,2}[0-9])|([1]([.][0]{0,3})?)&quot;);</span>
+<span class="fc" id="L349">        Matcher matcher = pattern.matcher(String.valueOf(intimacy));</span>
+<span class="fc bfc" id="L350" title="All 4 branches covered.">        if (!matcher.matches() || intimacy == 0) {</span>
+<span class="fc" id="L351">            return false;</span>
+        }
+<span class="fc" id="L353">        friend1.addSocialTie(friend2, intimacy);</span>
+<span class="fc" id="L354">        friend2.addSocialTie(friend1, intimacy);</span>
+<span class="fc" id="L355">        Friend centralUser = getCentralPoint();</span>
+<span class="fc bfc" id="L356" title="All 2 branches covered.">        for (Friend friend : allFriends) {</span>
+<span class="fc" id="L357">            int distance = getDistance(centralUser, friend);</span>
+<span class="fc bfc" id="L358" title="All 2 branches covered.">            if (distance != friend.getTrackRadius()) {// 删去原轨道上的物体</span>
+<span class="fc" id="L359">                Track&lt;Friend&gt; track = getTrackByRadius(friend.getTrackRadius());</span>
+<span class="pc bpc" id="L360" title="1 of 2 branches missed.">                if (track != null) {</span>
+<span class="nc" id="L361">                    track.remove(friend);</span>
+<span class="nc bnc" id="L362" title="All 2 branches missed.">                    if (track.getNumberOfObjects() == 0) {</span>
+<span class="nc" id="L363">                        this.deleteTrack(track);</span>
+                    }
+                }
+            }
+<span class="fc" id="L367">            friend.setTrackRadius(distance);</span>
+<span class="fc" id="L368">            this.addFriendOnTrack(friend);</span>
+        }
+<span class="pc bpc" id="L370" title="3 of 6 branches missed.">        assert friend1.getSocialTie(friend2) == intimacy &amp;&amp; friend2.getSocialTie(friend1) == intimacy : logIn(&quot;增加关系失败&quot;);</span>
+<span class="fc" id="L371">        return true;</span>
+    }
+
+    /**
+     * delete a relation between friend1 and friend2, and recreate the system
+     * 
+     * @param friend1 one friend
+     * @param friend2 another friend
+     */
+    public boolean deleteRelationAndRefactor(Friend friend1, Friend friend2) {
+<span class="fc bfc" id="L381" title="All 4 branches covered.">        if (friend1 == null || friend2 == null) {</span>
+<span class="fc" id="L382">            return false;</span>
+        }
+<span class="fc bfc" id="L384" title="All 2 branches covered.">        if (friend1.getSocialTie(friend2) == 0) {</span>
+<span class="fc" id="L385">            return false;</span>
+        }
+<span class="fc" id="L387">        friend1.deleteSocialTie(friend2);</span>
+<span class="fc" id="L388">        friend2.deleteSocialTie(friend1);</span>
+<span class="fc" id="L389">        Friend centralUser = getCentralPoint();</span>
+<span class="fc bfc" id="L390" title="All 2 branches covered.">        for (Friend friend : allFriends) {</span>
+<span class="fc" id="L391">            int distance = getDistance(centralUser, friend);</span>
+<span class="fc bfc" id="L392" title="All 2 branches covered.">            if (distance != friend.getTrackRadius()) {// 删去原轨道上的物体</span>
+<span class="fc" id="L393">                Track&lt;Friend&gt; track = getTrackByRadius(friend.getTrackRadius());</span>
+<span class="fc" id="L394">                track.remove(friend);</span>
+<span class="fc bfc" id="L395" title="All 2 branches covered.">                if (track.getNumberOfObjects() == 0) {</span>
+<span class="fc" id="L396">                    this.deleteTrack(track);</span>
+                }
+            }
+<span class="fc" id="L399">            friend.setTrackRadius(distance);</span>
+<span class="fc" id="L400">            this.addFriendOnTrack(friend);</span>
+        }
+<span class="pc bpc" id="L402" title="3 of 6 branches missed.">        assert friend1.getSocialTie(friend2) == 0 &amp;&amp; friend2.getSocialTie(friend1) == 0 : logIn(&quot;删除失败&quot;);</span>
+<span class="fc" id="L403">        return true;</span>
+    }
+
+    /**
+     * get the number of the list of allFriends
+     * 
+     * @return the number of the list of allFriends
+     */
+    public int getFriendNum() {
+<span class="fc" id="L412">        return allFriends.size();</span>
+    }
+
+    public Friend getFriend(int num) {
+<span class="fc bfc" id="L416" title="All 4 branches covered.">        if (num &lt;= 0 || num &gt; getFriendNum()) {</span>
+<span class="fc" id="L417">            return null;</span>
+        }
+<span class="fc" id="L419">        return allFriends.get(num - 1);</span>
+    }
+
+    /**
+     * 
+     * @param friend friend != null
+     * @return true if allFriends contain friend , else false
+     */
+    public boolean removeFriend(Friend friend) {
+<span class="pc bpc" id="L428" title="2 of 4 branches missed.">        assert friend != null : logIn(&quot;参数错误：null&quot;);</span>
+<span class="fc bfc" id="L429" title="All 2 branches covered.">        if (!allFriends.contains(friend)) {</span>
+<span class="fc" id="L430">            return false;</span>
+        }
+<span class="fc bfc" id="L432" title="All 2 branches covered.">        for (Friend friend2 : allFriends) {</span>
+<span class="fc" id="L433">            deleteRelationAndRefactor(friend2, friend);</span>
+        }
+<span class="fc" id="L435">        allFriends.remove(friend);</span>
+<span class="fc" id="L436">        return true;</span>
+    }
+
+    private static String logIn(String message) {
+<span class="nc" id="L440">        logger.severe(message);</span>
+<span class="nc" id="L441">        return &quot;已将assert错误信息加载在日志文件里&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>test (2019年5月19日 下午11:06:41)</div></body></html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>CircularOrbitAPIs.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2019年5月19日 下午11:06:41)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1172510217</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">APIs</a> &gt; <span class="el_source">CircularOrbitAPIs.java</span></div><h1>CircularOrbitAPIs.java</h1><pre class="source lang-java linenums">package APIs;
+
+import circularOrbit.CircularOrbit;
+import difference.Difference;
+
+<span class="nc" id="L6">public class CircularOrbitAPIs&lt;L, E&gt; {</span>
+
+    public double getObjectDistributionEntropy(CircularOrbit&lt;L, E&gt; c) {
+<span class="nc" id="L9">        return c.getSystemEntropy();</span>
+    }
+
+    public Difference&lt;L, E&gt; getDifference(CircularOrbit&lt;L, E&gt; c1, CircularOrbit&lt;L, E&gt; c2) {
+<span class="nc" id="L13">        return new Difference&lt;&gt;(c1, c2);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>test (2019年5月19日 下午11:06:41)</div></body></html>

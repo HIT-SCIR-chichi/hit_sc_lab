@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AtomStructure.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2019年5月19日 下午11:06:41)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1172510217</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">circularOrbit</a> &gt; <span class="el_source">AtomStructure.java</span></div><h1>AtomStructure.java</h1><pre class="source lang-java linenums">package circularOrbit;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import applications.App;
+import centralObject.CentralObject;
+import myException.DependencyException;
+import myException.FileChooseException;
+import myException.FileGrammerException;
+import physicalObject.PhysicalObject;
+import track.Track;
+
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">public class AtomStructure extends ConcreteCircularOrbit&lt;CentralObject, PhysicalObject&gt; {</span>
+
+<span class="fc" id="L22">    private static final Logger logger = Logger.getLogger(App.class.getSimpleName());</span>
+
+    /**
+     * transit an object to a track
+     * 
+     * @param physicalObject an object
+     * @param track          the new track
+     * @return true if the new track is not the same as the older one; else false
+     */
+    public boolean transit(PhysicalObject physicalObject, Track&lt;PhysicalObject&gt; track) {
+<span class="pc bpc" id="L32" title="3 of 6 branches missed.">        assert physicalObject != null &amp;&amp; track != null : logIn(&quot;参数错误：null&quot;);</span>
+<span class="pc bpc" id="L33" title="2 of 4 branches missed.">        assert getAlltracks().contains(track) : logIn(&quot;参数错误：系统中无track&quot;);</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (physicalObject.getTrackRadius() == track.getRadius()) {</span>
+<span class="pc bpc" id="L35" title="2 of 4 branches missed.">            assert track.contains(physicalObject)</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">                    &amp;&amp; physicalObject.getTrackRadius() == track.getRadius() : logIn(&quot;跃迁失败&quot;);</span>
+<span class="fc" id="L37">            return false;</span>
+        }
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if (deletePhysicalObject(physicalObject)) {</span>
+<span class="fc" id="L40">            physicalObject.setTrackRadius(track.getRadius());</span>
+<span class="fc" id="L41">            track.add(physicalObject);</span>
+<span class="pc bpc" id="L42" title="2 of 4 branches missed.">            assert track.contains(physicalObject)</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">                    &amp;&amp; physicalObject.getTrackRadius() == track.getRadius() : logIn(&quot;跃迁失败&quot;);</span>
+<span class="fc" id="L44">            return true;</span>
+        } else {
+<span class="nc bnc" id="L46" title="All 4 branches missed.">            assert track.contains(physicalObject)</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">                    &amp;&amp; physicalObject.getTrackRadius() == track.getRadius() : logIn(&quot;跃迁失败&quot;);</span>
+<span class="nc" id="L48">            return false;</span>
+        }
+    }
+
+    /**
+     * add an object to the system
+     * 
+     * @param physicalObject an object
+     * @return true if the object is not in the system; else false
+     */
+    public boolean addPhysicalObject(PhysicalObject physicalObject) {
+<span class="pc bpc" id="L59" title="2 of 4 branches missed.">        assert physicalObject != null : logIn(&quot;参数错误：null&quot;);</span>
+<span class="fc" id="L60">        Track&lt;PhysicalObject&gt; track = getTrackByRadius(physicalObject.getTrackRadius());</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (track == null) {</span>
+<span class="fc" id="L62">            track = new Track&lt;&gt;(physicalObject.getTrackRadius());</span>
+<span class="fc" id="L63">            track.add(physicalObject);</span>
+<span class="fc" id="L64">            this.addTrack(track);</span>
+<span class="fc" id="L65">            return true;</span>
+        } else {
+<span class="fc" id="L67">            return track.add(physicalObject);</span>
+        }
+    }
+
+    /**
+     * delete an object
+     * 
+     * @param physicalObject an object
+     * @return true if the object is in the system; else false
+     */
+    public boolean deletePhysicalObject(PhysicalObject physicalObject) {
+<span class="pc bpc" id="L78" title="2 of 4 branches missed.">        assert physicalObject != null : logIn(&quot;参数错误：null&quot;);</span>
+<span class="fc" id="L79">        Track&lt;PhysicalObject&gt; track = getTrackByRadius(physicalObject.getTrackRadius());</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (track != null) {</span>
+<span class="fc" id="L81">            return track.remove(physicalObject);</span>
+        } else {
+<span class="fc" id="L83">            return false;</span>
+        }
+    }
+
+    /**
+     * read the files and create the system of AtomStructure
+     * 
+     * @param file 待读取的文件
+     * @throws IOException
+     * @throws FileChooseException
+     */
+    public void readFileAndCreateSystem(File file) throws IOException, FileChooseException {
+        try {
+<span class="fc" id="L96">            InputStreamReader reader = new InputStreamReader(new FileInputStream(file));</span>
+<span class="fc" id="L97">            BufferedReader bfReader = new BufferedReader(reader);</span>
+<span class="fc" id="L98">            Pattern pattern1 = Pattern.compile(&quot;ElementName ::= ((?:[a-z]|[A-Z])+)&quot;);</span>
+<span class="fc" id="L99">            Pattern pattern11 = Pattern.compile(&quot;[A-Z][a-z]?&quot;);</span>
+<span class="fc" id="L100">            Pattern pattern2 = Pattern.compile(&quot;NumberOfTracks ::= ([-]?[0-9]?)&quot;);</span>
+<span class="fc" id="L101">            Pattern pattern3 = Pattern.compile(&quot;NumberOfElectron ::= [ ]*([1-9][/]\\d+(?:[ ]*[;][ ]*[1-9][/]\\d+)*)&quot;);</span>
+<span class="fc" id="L102">            String lineString = new String();</span>
+<span class="fc" id="L103">            int trackNum = 0, trackAct = 0;</span>
+            Matcher matcher;
+<span class="fc" id="L105">            int count = 0;// 统计有效行数</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">            while ((lineString = bfReader.readLine()) != null) {</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">                if ((matcher = pattern1.matcher(lineString)).find()) {</span>
+<span class="fc" id="L108">                    count++;</span>
+<span class="fc" id="L109">                    String eleName = matcher.group(1);</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">                    if (eleName.length() &gt; 2) {</span>
+<span class="fc" id="L111">                        bfReader.close();</span>
+<span class="fc" id="L112">                        throw new FileGrammerException(&quot;ElementName length should not be&quot; + eleName.length(), 20);</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">                    } else if (eleName.length() == 2) {</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">                        if (!pattern11.matcher(eleName).find()) {</span>
+<span class="nc" id="L115">                            bfReader.close();</span>
+<span class="nc" id="L116">                            throw new FileGrammerException(&quot;此处的元素名应该是大写字母+小写字母&quot;, 21, eleName);</span>
+                        }
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">                    } else if (eleName.length() == 1) {</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">                        if (!pattern11.matcher(eleName).find()) {</span>
+<span class="fc" id="L120">                            bfReader.close();</span>
+<span class="fc" id="L121">                            throw new FileGrammerException(&quot;元素名应该是大写字母&quot;, 22, eleName);</span>
+                        }
+                    }
+<span class="fc" id="L124">                    CentralObject element = new CentralObject();</span>
+<span class="fc" id="L125">                    element.setName(eleName);</span>
+<span class="fc" id="L126">                    addCentralPoint(element);</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">                } else if ((matcher = pattern2.matcher(lineString)).find()) {</span>
+<span class="fc" id="L128">                    count++;</span>
+<span class="fc" id="L129">                    trackNum = Integer.parseInt(matcher.group(1));</span>
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">                    if (trackNum &lt;= 0) {</span>
+<span class="nc" id="L131">                        bfReader.close();</span>
+<span class="nc" id="L132">                        throw new FileGrammerException(&quot;轨道数错误：&quot; + trackNum, 23);</span>
+                    }
+<span class="fc bfc" id="L134" title="All 2 branches covered.">                } else if ((matcher = pattern3.matcher(lineString)).find()) {</span>
+<span class="fc" id="L135">                    count++;</span>
+<span class="fc" id="L136">                    lineString = matcher.group(1);</span>
+<span class="fc" id="L137">                    String[] strings = lineString.split(&quot;;&quot;);</span>
+<span class="fc" id="L138">                    trackAct = strings.length;</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">                    for (int i = 0; i &lt; strings.length; i++) {</span>
+<span class="fc" id="L140">                        matcher = Pattern.compile(&quot;[ ]*([1-9])[/](\\d+)[ ]*&quot;).matcher(strings[i]);</span>
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">                        if (matcher.find()) {</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">                            if (Integer.parseInt(matcher.group(1)) != i + 1) {</span>
+<span class="nc" id="L143">                                bfReader.close();</span>
+<span class="nc" id="L144">                                throw new FileGrammerException(&quot;轨道号未按照顺序&quot;, 25);</span>
+                            }
+<span class="fc bfc" id="L146" title="All 2 branches covered.">                            for (int j = 0; j &lt; Integer.parseInt(matcher.group(2)); j++) {</span>
+<span class="fc" id="L147">                                PhysicalObject physicalObject = new PhysicalObject();</span>
+<span class="fc" id="L148">                                physicalObject.setTrackRadius(i + 1);</span>
+<span class="fc" id="L149">                                addPhysicalObject(physicalObject);</span>
+                            }
+                        }
+                    }
+<span class="fc" id="L153">                } else {</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">                    if (!lineString.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L155">                        bfReader.close();</span>
+<span class="fc" id="L156">                        throw new FileGrammerException(&quot;非法行：无相应处理机制&quot;, 20);</span>
+                    }
+                }
+            }
+<span class="fc bfc" id="L160" title="All 2 branches covered.">            if (trackAct != trackNum) {</span>
+<span class="fc" id="L161">                bfReader.close();</span>
+<span class="fc" id="L162">                throw new DependencyException(&quot;文件输入轨道数和参数轨道数不一致&quot;, 24, &quot;&quot; + trackAct);</span>
+            }
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">            if (count != 3) {</span>
+<span class="nc" id="L165">                bfReader.close();</span>
+<span class="nc" id="L166">                throw new FileGrammerException(&quot;缺少信息行&quot;, 20);</span>
+            }
+<span class="fc" id="L168">            bfReader.close();</span>
+<span class="fc" id="L169">            sortTrack();</span>
+<span class="fc" id="L170">        } catch (FileGrammerException e) {</span>
+<span class="fc" id="L171">            throw new FileChooseException(&quot;文件语法解析错误，需要重新选择文件：&quot; + e.getMessage());</span>
+<span class="fc" id="L172">        } catch (DependencyException e) {</span>
+<span class="fc" id="L173">            throw new FileChooseException(&quot;依赖关系错误，需要重新选择文件：&quot; + e.getMessage());</span>
+        }
+<span class="fc" id="L175">    }</span>
+
+    private static String logIn(String message) {
+<span class="nc" id="L178">        logger.severe(message);</span>
+<span class="nc" id="L179">        return &quot;已将assert错误信息加载在日志文件里&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>test (2019年5月19日 下午11:06:41)</div></body></html>

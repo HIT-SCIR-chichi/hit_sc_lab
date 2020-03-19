@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>App.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2019年5月19日 下午11:06:41)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1172510217</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">applications</a> &gt; <span class="el_source">App.java</span></div><h1>App.java</h1><pre class="source lang-java linenums">package applications;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.logging.Formatter;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+
+<span class="nc" id="L25">public class App {</span>
+
+<span class="nc" id="L27">    private static final Logger logger = Logger.getLogger(App.class.getSimpleName());</span>
+
+    public static void main(String[] args) {
+        FileHandler fileHandler;
+        try {
+<span class="nc" id="L32">            fileHandler = new FileHandler(App.class.getSimpleName() + &quot;-log.%u.%g.txt&quot;);</span>
+<span class="nc" id="L33">            fileHandler.setFormatter(new Formatter() {</span>
+
+                @Override public String format(LogRecord record) {
+<span class="nc" id="L36">                    String string = &quot;&lt;record&gt;\n&quot;;</span>
+<span class="nc" id="L37">                    string += &quot;&lt;class&gt;&quot; + record.getSourceClassName() + &quot;&lt;class&gt;\n&quot;;</span>
+<span class="nc" id="L38">                    string += &quot;&lt;method&gt;&quot; + record.getSourceMethodName() + &quot;&lt;method&gt;\n&quot;;</span>
+<span class="nc" id="L39">                    string += &quot;&lt;time&gt;&quot; + new SimpleDateFormat(&quot;yyyy-MM-dd hh:mm:ss&quot;).format(new Date()) + &quot;&lt;time&gt;\n&quot;;</span>
+<span class="nc" id="L40">                    string += &quot;&lt;level&gt;&quot; + record.getLevel() + &quot;&lt;level&gt;\n&quot;;</span>
+<span class="nc" id="L41">                    string += &quot;&lt;message&gt;&quot; + record.getMessage() + &quot;&lt;message&gt;\n&quot;;</span>
+<span class="nc" id="L42">                    return string;</span>
+                }
+            });
+<span class="nc" id="L45">            logger.addHandler(fileHandler);</span>
+<span class="nc" id="L46">            logger.setLevel(Level.INFO);</span>
+<span class="nc" id="L47">        } catch (Exception e) {</span>
+<span class="nc" id="L48">            e.printStackTrace();</span>
+<span class="nc" id="L49">            System.exit(-1);</span>
+        }
+<span class="nc" id="L51">        logger.log(Level.INFO, &quot;选择游戏&quot;);</span>
+<span class="nc" id="L52">        JFrame frame = new JFrame(&quot;WELCOME @Author ZJR&quot;);</span>
+<span class="nc" id="L53">        frame.setVisible(true);</span>
+<span class="nc" id="L54">        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L55">        frame.setExtendedState(Frame.MAXIMIZED_BOTH);</span>
+<span class="nc" id="L56">        frame.setLayout(new GridLayout(1, 3));</span>
+<span class="nc" id="L57">        frame.setBackground(Color.black);</span>
+
+<span class="nc" id="L59">        JButton button1 = new JButton(&quot;Stellar System&quot;);</span>
+<span class="nc" id="L60">        button1.setFocusable(false);</span>
+<span class="nc" id="L61">        JPanel panel1 = new JPanel(new BorderLayout(1, 2)) {</span>
+
+            @Override public void paint(Graphics g) {
+<span class="nc" id="L64">                ImageIcon icon = new ImageIcon(&quot;src/img/Stellar System.jpg&quot;);</span>
+<span class="nc" id="L65">                icon.setImage(icon.getImage().getScaledInstance(getWidth(), getHeight() - button1.getHeight(),</span>
+<span class="nc" id="L66">                        Image.SCALE_AREA_AVERAGING));</span>
+<span class="nc" id="L67">                g.drawImage(icon.getImage(), 0, button1.getHeight(), this);</span>
+<span class="nc" id="L68">            }</span>
+        };
+
+<span class="nc" id="L71">        JButton button2 = new JButton(&quot;Atom Structure&quot;);</span>
+<span class="nc" id="L72">        JPanel panel2 = new JPanel(new BorderLayout(1, 2)) {</span>
+
+            @Override public void paint(Graphics g) {
+<span class="nc" id="L75">                ImageIcon imageIcon = new ImageIcon(&quot;src/img/Atom Structure System.jpg&quot;);</span>
+<span class="nc" id="L76">                imageIcon.setImage(imageIcon.getImage().getScaledInstance(getWidth(), getHeight() - button1.getHeight(),</span>
+<span class="nc" id="L77">                        Image.SCALE_AREA_AVERAGING));</span>
+<span class="nc" id="L78">                g.drawImage(imageIcon.getImage(), 0, button1.getHeight(), this);</span>
+<span class="nc" id="L79">            }</span>
+        };
+<span class="nc" id="L81">        button2.setFocusable(false);</span>
+
+<span class="nc" id="L83">        JButton button3 = new JButton(&quot;Social Network System&quot;);</span>
+<span class="nc" id="L84">        button3.setFocusable(false);</span>
+<span class="nc" id="L85">        JPanel panel3 = new JPanel(new BorderLayout(1, 2)) {</span>
+
+            @Override public void paint(Graphics g) {
+<span class="nc" id="L88">                ImageIcon imageIcon = new ImageIcon(&quot;src/img/Social Network System.jpg&quot;);</span>
+<span class="nc" id="L89">                imageIcon.setImage(</span>
+<span class="nc" id="L90">                        imageIcon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_AREA_AVERAGING));</span>
+<span class="nc" id="L91">                g.drawImage(imageIcon.getImage(), 0, button1.getHeight(), this);</span>
+<span class="nc" id="L92">            }</span>
+        };
+
+<span class="nc" id="L95">        panel1.add(button1, BorderLayout.NORTH);</span>
+<span class="nc" id="L96">        panel2.add(button2, BorderLayout.NORTH);</span>
+<span class="nc" id="L97">        panel3.add(button3, BorderLayout.NORTH);</span>
+
+<span class="nc" id="L99">        frame.add(panel1);</span>
+<span class="nc" id="L100">        frame.add(panel2);</span>
+<span class="nc" id="L101">        frame.add(panel3);</span>
+
+<span class="nc" id="L103">        button1.addActionListener(new ActionListener() {</span>
+
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L106">                logger.log(Level.INFO, &quot;选择行星系统&quot;);</span>
+<span class="nc" id="L107">                frame.dispose();</span>
+<span class="nc" id="L108">                StellarSystemGUI stellarSystemGUI = new StellarSystemGUI();</span>
+<span class="nc" id="L109">                stellarSystemGUI.GUI();</span>
+<span class="nc" id="L110">            }</span>
+        });
+<span class="nc" id="L112">        button2.addActionListener(new ActionListener() {</span>
+
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L115">                logger.log(Level.INFO, &quot;选择原子系统&quot;);</span>
+<span class="nc" id="L116">                frame.dispose();</span>
+<span class="nc" id="L117">                AtomStructureGUI atomStructureGUI = new AtomStructureGUI();</span>
+<span class="nc" id="L118">                atomStructureGUI.GUI();</span>
+<span class="nc" id="L119">            }</span>
+        });
+<span class="nc" id="L121">        button3.addActionListener(new ActionListener() {</span>
+
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L124">                logger.log(Level.INFO, &quot;选择社交系统&quot;);</span>
+<span class="nc" id="L125">                frame.dispose();</span>
+<span class="nc" id="L126">                SocialNetworkSystemGUI socialNetworkSystemGUI = new SocialNetworkSystemGUI();</span>
+<span class="nc" id="L127">                socialNetworkSystemGUI.GUI();</span>
+<span class="nc" id="L128">            }</span>
+        });
+<span class="nc" id="L130">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>test (2019年5月19日 下午11:06:41)</div></body></html>

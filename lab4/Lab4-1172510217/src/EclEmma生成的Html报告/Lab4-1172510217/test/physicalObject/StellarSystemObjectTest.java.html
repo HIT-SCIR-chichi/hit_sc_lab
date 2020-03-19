@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>StellarSystemObjectTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2019年5月19日 下午11:06:41)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1172510217</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">physicalObject</a> &gt; <span class="el_source">StellarSystemObjectTest.java</span></div><h1>StellarSystemObjectTest.java</h1><pre class="source lang-java linenums">package physicalObject;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+<span class="fc" id="L7">class StellarSystemObjectTest {</span>
+
+    /**
+     * testing strategy : 正常测试，选取一个测试用例
+     */
+    @Test void testToString() {
+<span class="fc" id="L13">        StellarSystemObject planet = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 100, 200, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L14">        assertEquals(&quot;[name=A]&quot;, planet.toString());</span>
+<span class="fc" id="L15">    }</span>
+
+    /**
+     * testing strategy : 正常测试，选取一个测试用例
+     */
+    @Test void testGetPlanetName() {
+<span class="fc" id="L21">        StellarSystemObject planet = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 100, 200, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L22">        assertEquals(&quot;A&quot;, planet.getPlanetName());</span>
+<span class="fc" id="L23">    }</span>
+
+    /**
+     * testing strategy : 正常测试，选取一个测试用例
+     */
+    @Test void testGetPlanetState() {
+<span class="fc" id="L29">        StellarSystemObject planet = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 100, 200, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L30">        assertEquals(&quot;B&quot;, planet.getPlanetState());</span>
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * testing strategy : 正常测试，选取一个测试用例
+     */
+    @Test void testGetPlanetColor() {
+<span class="fc" id="L37">        StellarSystemObject planet = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 100, 200, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L38">        assertEquals(&quot;C&quot;, planet.getPlanetColor());</span>
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * testing strategy : 正常测试，选取一个测试用例
+     */
+    @Test void testGetPlanetRadius() {
+<span class="fc" id="L45">        StellarSystemObject planet = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 100, 200, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L46">        assertEquals(100, planet.getPlanetRadius());</span>
+<span class="fc" id="L47">    }</span>
+
+    /**
+     * testing strategy : 正常测试，选取一个测试用例
+     */
+    @Test void testGetRevolutionSpeed() {
+<span class="fc" id="L53">        StellarSystemObject planet = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 100, 200, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L54">        assertEquals(200, planet.getRevolutionSpeed());</span>
+<span class="fc" id="L55">    }</span>
+
+    /**
+     * testing strategy : 正常测试，选取一个测试用例
+     */
+    @Test void testGetRevolutionDiretion() {
+<span class="fc" id="L61">        StellarSystemObject planet = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 100, 200, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L62">        assertEquals(&quot;CW&quot;, planet.getRevolutionDiretion());</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * testing strategy : 正常测试，选取一个测试用例
+     */
+    @Test void testGetAngle() {
+<span class="fc" id="L69">        StellarSystemObject planet = new StellarSystemObject(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, 100, 200, &quot;CW&quot;, 0);</span>
+<span class="fc" id="L70">        assertEquals(0, planet.getAngle());</span>
+<span class="fc" id="L71">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>test (2019年5月19日 下午11:06:41)</div></body></html>

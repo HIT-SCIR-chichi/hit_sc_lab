@@ -1,0 +1,192 @@
+<record>
+<class>applications.App<class>
+<method>main<method>
+<time>2019-05-19 07:21:49<time>
+<level>INFO<level>
+<message>选择游戏<message>
+<record>
+<class>applications.App$5<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:21:51<time>
+<level>INFO<level>
+<message>选择行星系统<message>
+<record>
+<class>applications.StellarSystemGUI$3<class>
+<method>itemStateChanged<method>
+<time>2019-05-19 07:21:54<time>
+<level>INFO<level>
+<message>读取小文件<message>
+<record>
+<class>applications.StellarSystemGUI$3<class>
+<method>itemStateChanged<method>
+<time>2019-05-19 07:21:54<time>
+<level>SEVERE<level>
+<message>checkRep接收到异常，需要重新选择文件：行星轨道半径之差小于两相邻星体轨道半径之和:1<message>
+<record>
+<class>applications.StellarSystemGUI$5<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:21:56<time>
+<level>SEVERE<level>
+<message>计算某时刻某行星的角度失败：输入格式非法<message>
+<record>
+<class>applications.StellarSystemGUI$6<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:21:56<time>
+<level>SEVERE<level>
+<message>计算两颗星体的物理距离失败：输入格式非法<message>
+<record>
+<class>applications.StellarSystemGUI$7<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:21:57<time>
+<level>INFO<level>
+<message>行星系统动态化<message>
+<record>
+<class>applications.StellarSystemGUI$8<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:21:58<time>
+<level>INFO<level>
+<message>重选游戏系统：退出行星系统<message>
+<record>
+<class>applications.App<class>
+<method>main<method>
+<time>2019-05-19 07:21:58<time>
+<level>INFO<level>
+<message>选择游戏<message>
+<record>
+<class>applications.App$6<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:21:59<time>
+<level>INFO<level>
+<message>选择原子系统<message>
+<record>
+<class>applications.AtomStructureGUI$4<class>
+<method>itemStateChanged<method>
+<time>2019-05-19 07:22:00<time>
+<level>INFO<level>
+<message>读取中文件<message>
+<record>
+<class>applications.AtomStructureGUI$2<class>
+<method>itemStateChanged<method>
+<time>2019-05-19 07:22:02<time>
+<level>INFO<level>
+<message>删除轨道：2<message>
+<record>
+<class>applications.AtomStructureGUI$6<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:22:03<time>
+<level>INFO<level>
+<message>你的输入是：请在此处输入要增加电子的轨道序号<message>
+<record>
+<class>applications.AtomStructureGUI$6<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:22:03<time>
+<level>SEVERE<level>
+<message>输入格式错误<message>
+<record>
+<class>applications.AtomStructureGUI$3<class>
+<method>itemStateChanged<method>
+<time>2019-05-19 07:22:05<time>
+<level>INFO<level>
+<message>删除电子，轨道号：2<message>
+<record>
+<class>applications.AtomStructureGUI$7<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:22:06<time>
+<level>INFO<level>
+<message>模拟电子跃迁，你的输入是：请输入源轨道序号和目标轨道号：源轨道 目标轨道<message>
+<record>
+<class>applications.AtomStructureGUI$7<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:22:06<time>
+<level>SEVERE<level>
+<message>输入错误：未按格式输入！<message>
+<record>
+<class>applications.AtomStructureGUI$8<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:22:09<time>
+<level>INFO<level>
+<message>重选游戏系统，退出原子系统<message>
+<record>
+<class>applications.App<class>
+<method>main<method>
+<time>2019-05-19 07:22:09<time>
+<level>INFO<level>
+<message>选择游戏<message>
+<record>
+<class>applications.App$7<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:22:10<time>
+<level>INFO<level>
+<message>选择社交系统<message>
+<record>
+<class>applications.SocialNetworkSystemGUI$5<class>
+<method>itemStateChanged<method>
+<time>2019-05-19 07:22:11<time>
+<level>INFO<level>
+<message>读取小文件<message>
+<record>
+<class>applications.SocialNetworkSystemGUI$2<class>
+<method>itemStateChanged<method>
+<time>2019-05-19 07:22:14<time>
+<level>INFO<level>
+<message>删除朋友：1:LisaWong<message>
+<record>
+<class>applications.SocialNetworkSystemGUI$3<class>
+<method>itemStateChanged<method>
+<time>2019-05-19 07:22:18<time>
+<level>INFO<level>
+<message>查询朋友在第几层轨道上：2:FrankLee<message>
+<record>
+<class>applications.SocialNetworkSystemGUI$3<class>
+<method>itemStateChanged<method>
+<time>2019-05-19 07:22:18<time>
+<level>INFO<level>
+<message>[name=FrankLee, age=42 sex=男]在第2层轨道上<message>
+<record>
+<class>applications.SocialNetworkSystemGUI$4<class>
+<method>itemStateChanged<method>
+<time>2019-05-19 07:22:19<time>
+<level>INFO<level>
+<message>查询中心用户的好友信息扩散程度：1:TomWong<message>
+<record>
+<class>applications.SocialNetworkSystemGUI$4<class>
+<method>itemStateChanged<method>
+<time>2019-05-19 07:22:19<time>
+<level>INFO<level>
+<message>[name=TomWong, age=61 sex=男]的信息扩散程度为：0<message>
+<record>
+<class>applications.SocialNetworkSystemGUI$7<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:22:21<time>
+<level>INFO<level>
+<message>增加关系，你的输入是：javax.swing.JTextField[,0,616,768x56,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.BorderUIResource$CompoundBorderUIResource@66f602bd,flags=296,maximumSize=,minimumSize=,preferredSize=,caretColor=sun.swing.PrintColorUIResource[r=51,g=51,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],editable=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColorUIResource[r=51,g=51,b=51],selectionColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],columns=0,columnWidth=0,command=,horizontalAlignment=LEADING]<message>
+<record>
+<class>applications.SocialNetworkSystemGUI$7<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:22:21<time>
+<level>WARNING<level>
+<message>输入用户不存在！<message>
+<record>
+<class>applications.SocialNetworkSystemGUI$8<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:22:21<time>
+<level>INFO<level>
+<message>删除关系，你的输入是：javax.swing.JTextField[,0,728,768x56,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.BorderUIResource$CompoundBorderUIResource@66f602bd,flags=296,maximumSize=,minimumSize=,preferredSize=,caretColor=sun.swing.PrintColorUIResource[r=51,g=51,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],editable=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColorUIResource[r=51,g=51,b=51],selectionColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],columns=0,columnWidth=0,command=,horizontalAlignment=LEADING]<message>
+<record>
+<class>applications.SocialNetworkSystemGUI$8<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:22:21<time>
+<level>WARNING<level>
+<message>输入用户不存在！<message>
+<record>
+<class>applications.SocialNetworkSystemGUI$9<class>
+<method>actionPerformed<method>
+<time>2019-05-19 07:22:22<time>
+<level>INFO<level>
+<message>重选游戏系统：退出社交系统<message>
+<record>
+<class>applications.App<class>
+<method>main<method>
+<time>2019-05-19 07:22:22<time>
+<level>INFO<level>
+<message>选择游戏<message>

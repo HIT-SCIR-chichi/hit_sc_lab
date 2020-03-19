@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Track.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (2019年5月19日 下午11:06:41)</a> &gt; <a href="../../index.html" class="el_group">Lab4-1172510217</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">track</a> &gt; <span class="el_source">Track.java</span></div><h1>Track.java</h1><pre class="source lang-java linenums">package track;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Track&lt;E&gt; {
+
+    private double radius;// the radius of the track or the order of the tracks
+<span class="fc" id="L9">    private List&lt;E&gt; physicalObjects = new ArrayList&lt;&gt;();// save all the physical objects on the same track</span>
+
+    /*
+     * initialize the track
+     */
+<span class="fc" id="L14">    public Track(double radius) {</span>
+<span class="fc" id="L15">        this.radius = radius;</span>
+<span class="fc" id="L16">    }</span>
+
+    /**
+     * @return the radius
+     */
+    public double getRadius() {
+<span class="fc" id="L22">        return radius;</span>
+    }
+
+    /**
+     * add an object in the track
+     * 
+     * @param e object to be added in the track
+     * @return true if the object e is not in the track before and its radius is the
+     *         same as the track; else return false
+     */
+    public boolean add(E e) {
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (!physicalObjects.contains(e)) {</span>
+<span class="fc" id="L34">            physicalObjects.add(e);</span>
+<span class="fc" id="L35">            return true;</span>
+        }
+<span class="fc" id="L37">        return false;</span>
+    }
+
+    /**
+     * delete an object in the track
+     * 
+     * @param e object to be deleted in the track
+     * @return true if the object e is in the track before and its radius is the
+     *         same as the track; else return false
+     */
+    public boolean remove(E e) {
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (physicalObjects.contains(e)) {</span>
+<span class="fc" id="L49">            physicalObjects.remove(e);</span>
+<span class="fc" id="L50">            return true;</span>
+        }
+<span class="fc" id="L52">        return false;</span>
+    }
+
+    /**
+     * check if the object exists in the track
+     * 
+     * @param e the object to be checked
+     * @return true if existed in the track;else false
+     */
+    public boolean contains(E e) {
+<span class="fc" id="L62">        return physicalObjects.contains(e);</span>
+    }
+
+    /**
+     * get the number of the physical objects in the track
+     * 
+     * @return the number of the physical objects in the track
+     */
+    public int getNumberOfObjects() {
+<span class="fc" id="L71">        return physicalObjects.size();</span>
+    }
+
+    @Override public String toString() {
+<span class="fc" id="L75">        String string = &quot;&quot;;</span>
+<span class="fc" id="L76">        string += &quot;radius=&quot; + radius + &quot; : &quot;;</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        for (E e : physicalObjects) {</span>
+<span class="fc" id="L78">            string += e + &quot; &quot;;</span>
+        }
+<span class="fc" id="L80">        return string;</span>
+    }
+
+    public List&lt;E&gt; getTrackObjects() {
+<span class="fc" id="L84">        return this.physicalObjects;</span>
+    }
+
+    public int getPhysicalObjectIndex(E e) {
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        for (int i = 0; i &lt; physicalObjects.size(); i++) {</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">            if (physicalObjects.get(i).equals(e)) {</span>
+<span class="fc" id="L90">                return i;</span>
+            }
+        }
+<span class="fc" id="L93">        return -1;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>test (2019年5月19日 下午11:06:41)</div></body></html>
