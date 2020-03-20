@@ -1,2 +1,0 @@
-ElementName ::= Rb
-NumberOfTracks ::= 10

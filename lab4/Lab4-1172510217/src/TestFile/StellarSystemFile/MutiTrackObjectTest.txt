@@ -1,3 +1,0 @@
-Stellar ::= <U0,1e5,2e10>
-Planet ::= <U1,Solid,Blue,2e5,3e5,20,CW,359>
-Planet ::= <U2,Gas,Green,1e5,3e5,10,CCW,59>

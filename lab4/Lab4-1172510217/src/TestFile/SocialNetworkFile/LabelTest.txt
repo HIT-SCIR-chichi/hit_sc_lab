@@ -1,5 +1,0 @@
-CentralUser ::= <._.,30,M>
-
-SocialTie ::= <._., LisaWong, 0.98>
-
-Friend ::= <LisaWong, 25, F>
